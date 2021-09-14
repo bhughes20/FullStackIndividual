@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Home Details</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg" id="myNav">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Home Insurance Quote</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+        <div class="container">
+            <header class="m-4">
+                <h1>Enter Details Below to Start Your Quote</h1>
+            </header>
+            <section>
+                <form>
+                    <div class="row mb-3">
+                        <label for="title" class="col-sm-3 col-form-label">Title</label>
+                        <div class="col-sm-5">
+                            <select id="title" name="title" class="custom-select">
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="firstName" class="col-sm-3 col-form-label">First Name</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="firstName" placeholder="Enter First Name" name="firstName">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="lastName" class="col-sm-3 col-form-label">Last Name</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="lastName" placeholder="Enter Last Name" name="lastName">
+                        </div>
+                    </div>
+                     <div class="row mb-3">
+                        <label for="addressLine1" class="col-sm-3 col-form-label">First Line of Address</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="addressLine1" placeholder="Enter First Line of Address" name="addressLine1">
+                        </div>
+                    </div>
+                     <div class="row mb-3">
+                        <label for="city" class="col-sm-3 col-form-label">City</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="city" placeholder="Enter City Name" name="city">
+                        </div>
+                    </div> 
+                     <div class="row mb-3">
+                        <label for="postcode" class="col-sm-3 col-form-label">Postcode</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="postcode" placeholder="Eg. BT7 1NN" name="postcode">
+                        </div>
+                    </div>   
+                    <button type="submit" class="btn btn-primary">Submit</button>                                                          
+                </form>
+            </section>
+
+            <section>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">Quote Number</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name </th>
+                        <th scope="col">Postcode</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">1</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <th scope="row">2</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2"></td>
+                        <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div> 
+    </body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
