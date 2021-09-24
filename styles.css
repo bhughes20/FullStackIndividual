@@ -3,6 +3,27 @@
     color: #fff;
 }
 
-nav > a{
+.navbar-brand, .nav-link{
     color: #fff;
+}
+
+.navbar-brand:hover,.nav-link:hover{
+    color: #ced7e0;
+    font-size: larger;
+}
+
+#displayQuotes{
+    display: none;
+}
+
+#displayForm{
+    display:"";
+    background-color:#ced7e0;
+    padding: 30px;
+}
+
+#formSubmitBtn{
+    background-color: #0033A0;
+    color: #fff;
+    margin-top: 15px;
 }
