@@ -1,5 +1,6 @@
-import './App.css';
-import Create from './components/Create/Create';
+import "semantic-ui-css/semantic.min.css";
+import "./App.css";
+import Create from "./components/Create/Create";
 
 function App() {
   return (
