@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { ErrorMessage } from '@hookform/error-message';
 import { Button, Radio, Form, Select } from "semantic-ui-react";
 
 export default function Create() {
@@ -16,6 +17,9 @@ export default function Create() {
   const [outOfRegisteredState, setOutOfRegisteredState] = useState("");
 
   return (
+
+
+    
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Group widths="equal">
         <Form.Field>
@@ -23,24 +27,26 @@ export default function Create() {
           <Controller
             name="prefix"
             rules={{ required: "Prefix is a required field" }}
-            render={({ field }) => (
+            render={({ field : { onBlur, ref, ...field }}) => (
               <Select
+                error={errors.prefix}
+                onBlur={onBlur}
+                inputRef={ref}
                 placeholder="Select..."
                 {...field}
                 options={[
-                  { value: "Dr", label: "Dr" },
-                  { value: "Miss", label: "Miss" },
-                  { value: "Mr", label: "Mr" },
-                  { value: "Mrs", label: "Mrs" },
-                  { value: "Ms", label: "Ms" },
+                  { value: "Dr", text: "Dr" },
+                  { value: "Miss", text: "Miss" },
+                  { value: "Mr", text: "Mr" },
+                  { value: "Mrs", text: "Mrs" },
+                  { value: "Ms", text: "Ms" }
                 ]}
               />
             )}
             control={control}
             defaultValue=""
           />
-          {errors.prefix && <p>{errors.prefix.message}</p>}
-
+        <ErrorMessage errors={errors} name='prefix' />
         </Form.Field>
         <Form.Field>
           <label>First Name</label>
@@ -61,24 +67,48 @@ export default function Create() {
             }
             control={control}
             defaultValue=""
-            render={({ field }) => (
-              <input placeholder="First Name" {...field} />
+            render={({ field : { value, onBlur, onChange, ref, ...field}}) => (
+              <input 
+                value={value}
+                onBlur={onBlur}
+                onChange={onChange}
+                inputRef={ref} 
+                error={errors.firstName} 
+                placeholder="First Name"
+                {...field}
+              />
             )}
           />
+        <ErrorMessage errors={errors} name='firstName' />
         </Form.Field>
         <Form.Field>
           <label>Last Name</label>
           <Controller
             name="lastName"
             rules={
-              { required: true },
-              { maxLength: 50 },
-              { pattern: /^[a-z ,.'-]+$/i }
+              { required: "Last Name is a required field" },
+              { maxLength: {
+                value: 50,
+                message: "Max length is 50 characters"
+                }
+              },
+              { pattern: {
+                value: /^[a-z ,.'-]+$/i,
+                message: "Names must begin with a letter"
+                }
+              }
             }
             control={control}
             defaultValue=""
-            render={({ field }) => <input placeholder="Last Name" {...field} />}
+            render={({ field : { ref, ...field }}) => 
+            <input
+            inputRef={ref} 
+            error={errors.lastName}  
+            placeholder="Last Name" 
+            {...field} 
+            />}
           />
+          <ErrorMessage errors={errors} name='lastName' />
         </Form.Field>
       </Form.Group>
       <Form.Field>
@@ -152,11 +182,11 @@ export default function Create() {
                 placeholder="Select..."
                 {...field}
                 options={[
-                  { value: "Cabriolet", label: "Cabriolet" },
-                  { value: "Coupe", label: "Coupe" },
-                  { value: "Estate", label: "Estate" },
-                  { value: "Hatchback", label: "Hatchback" },
-                  { value: "Other", label: "Other" },
+                  { value: "Cabriolet", text: "Cabriolet" },
+                  { value: "Coupe", text: "Coupe" },
+                  { value: "Estate", text: "Estate" },
+                  { value: "Hatchback", text: "Hatchback" },
+                  { value: "Other", text: "Other" },
                 ]}
               />
             )}
@@ -174,12 +204,12 @@ export default function Create() {
                 placeholder="Select..."
                 {...field}
                 options={[
-                  { value: "1000", label: "1000" },
-                  { value: "1600", label: "1600" },
-                  { value: "2000", label: "2000" },
-                  { value: "2500", label: "2500" },
-                  { value: "3000", label: "3000" },
-                  { value: "Other", label: "Other" },
+                  { value: "1000", text: "1000" },
+                  { value: "1600", text: "1600" },
+                  { value: "2000", text: "2000" },
+                  { value: "2500", text: "2500" },
+                  { value: "3000", text: "3000" },
+                  { value: "Other", text: "Other" },
                 ]}
               />
             )}
@@ -322,12 +352,12 @@ export default function Create() {
                 placeholder="Select..."
                 {...field}
                 options={[
-                  { value: "0 to 5000", label: "0 to 5000" },
-                  { value: "5001 to 10000", label: "5001 to 10000" },
-                  { value: "10001 to 20000", label: "10001 to 20000" },
-                  { value: "20001 to 30000", label: "20001 to 30000" },
-                  { value: "30001 to 40000", label: "30001 to 40000" },
-                  { value: "40001 to 50000", label: "40001 to 50000" },
+                  { value: "0 to 5000", text: "0 to 5000" },
+                  { value: "5001 to 10000", text: "5001 to 10000" },
+                  { value: "10001 to 20000", text: "10001 to 20000" },
+                  { value: "20001 to 30000", text: "20001 to 30000" },
+                  { value: "30001 to 40000", text: "30001 to 40000" },
+                  { value: "40001 to 50000", text: "40001 to 50000" },
                 ]}
               />
             )}
@@ -346,8 +376,8 @@ export default function Create() {
           />
         </Form.Field>
       </Form.Group>
-      <p>{errors.prefix?.message}</p>
       <Button type="submit">Get Quote</Button>
     </Form>
+    
   );
 }
