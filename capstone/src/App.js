@@ -1,14 +1,15 @@
 import "semantic-ui-css/semantic.min.css";
+import "react-datepicker/dist/react-datepicker.css";
+import { ChakraProvider } from "@chakra-ui/react"
 import "./App.css";
-import Create from "./components/Create/Create";
 import QuoteForm from "./components/QuoteForm/QuoteForm";
 
 function App() {
   return (
     <div className="App">
-      <div>
-        <QuoteForm />
-      </div>
+    <ChakraProvider>
+      <QuoteForm />
+    </ChakraProvider>
     </div>
   );
 }

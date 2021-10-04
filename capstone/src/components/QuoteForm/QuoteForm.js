@@ -3,12 +3,22 @@ import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Button, Form } from "semantic-ui-react";
 import Select from "react-select";
+import DatePicker from "react-datepicker";
+import {
+  FormControl,
+  FormLabel,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from "@chakra-ui/react";
 
 export default function QuoteForm() {
   const {
+    register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -20,6 +30,32 @@ export default function QuoteForm() {
     { value: "Mr", label: "Mr" },
     { value: "Mrs", label: "Mrs" },
     { value: "Ms", label: "Ms" },
+  ];
+
+  const vehicleTypeOptions = [
+    { value: "Cabriolet", label: "Cabriolet" },
+    { value: "Coupe", label: "Coupe" },
+    { value: "Estate", label: "Estate" },
+    { value: "Hatchback", label: "Hatchback" },
+    { value: "Other", label: "Other" },
+  ];
+
+  const engineSizeOptions = [
+    { value: "1000", label: "1000" },
+    { value: "1600", label: "1600" },
+    { value: "2000", label: "2000" },
+    { value: "2500", label: "2500" },
+    { value: "3000", label: "3000" },
+    { value: "Other", label: "Other" },
+  ];
+
+  const currentValueOptions = [
+    { value: "0 to 5000", label: "0 to 5000" },
+    { value: "5001 to 10000", label: "5001 to 10000" },
+    { value: "10001 to 20000", label: "10001 to 20000" },
+    { value: "20001 to 30000", label: "20001 to 30000" },
+    { value: "30001 to 40000", label: "30001 to 40000" },
+    { value: "40001 to 50000", label: "40001 to 50000" },
   ];
 
   const handleRegistration = (data) => console.log(data);
@@ -53,6 +89,7 @@ export default function QuoteForm() {
             <ErrorMessage errors={errors} name="prefix" />
           </small>
         </Form.Field>
+
         <Form.Field>
           <label>First Name</label>
           <Controller
@@ -82,6 +119,7 @@ export default function QuoteForm() {
             <ErrorMessage errors={errors} name="firstName" />
           </small>
         </Form.Field>
+
         <Form.Field>
           <label>Last Name</label>
           <Controller
@@ -123,7 +161,7 @@ export default function QuoteForm() {
               value: 11,
               message: "Telephone Number must be 11 digits",
             },
-            maxLength: {
+            minLength: {
               value: 11,
               message: "Telephone Number must be 11 digits",
             },
@@ -193,7 +231,11 @@ export default function QuoteForm() {
             control={control}
             defaultValue=""
             render={({ field: { value, onChange } }) => (
-              <input placeholder="Please Enter City..." value={value} onChange={onChange} />
+              <input
+                placeholder="Please Enter City..."
+                value={value}
+                onChange={onChange}
+              />
             )}
           />
           <small className="text-danger">
@@ -221,6 +263,184 @@ export default function QuoteForm() {
           </small>
         </Form.Field>
       </Form.Group>
+
+      <Form.Group widths="equal">
+        <Form.Field>
+          <label>Vehicle Type</label>
+          <Controller
+            name="vehicleType"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Vehicle Type is a required field" }}
+            render={({ field: { name, value, onChange, ref } }) => (
+              <Select
+                name={name}
+                placeholder="Select..."
+                options={vehicleTypeOptions}
+                value={vehicleTypeOptions.find((c) => c.value === value)}
+                onChange={(val) => onChange(val.value)}
+                inputRef={ref}
+              />
+            )}
+          />
+          <small className="text-danger">
+            <ErrorMessage errors={errors} name="vehicleType" />
+          </small>
+        </Form.Field>
+
+        <Form.Field>
+          <label>Engine Size</label>
+          <Controller
+            name="engineSize"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Engine Size is a required field" }}
+            render={({ field: { name, value, onChange, ref } }) => (
+              <Select
+                name={name}
+                placeholder="Select..."
+                options={engineSizeOptions}
+                value={engineSizeOptions.find((c) => c.value === value)}
+                onChange={(val) => onChange(val.value)}
+                inputRef={ref}
+              />
+            )}
+          />
+          <small className="text-danger">
+            <ErrorMessage errors={errors} name="engineSize" />
+          </small>
+        </Form.Field>
+      </Form.Group>
+
+      <FormControl>
+        <FormLabel>Additional Drivers</FormLabel>
+        <Controller
+          name="additionalDrivers"
+          rules={{ required: "This is a required field" }}
+          control={control}
+          defaultValue=""
+          render={({ field: { value, onChange } }) => (
+            <NumberInput
+              step={1}
+              defaultValue={1}
+              min={1}
+              max={4}
+              value={value}
+              onChange={onChange}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          )}
+        />
+        <small className="text-danger">
+          <ErrorMessage errors={errors} name="additionalDrivers" />
+        </small>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>Will the vehicle be used for commercial purposes?</FormLabel>
+        <label htmlFor="commercialPurposes-yes">
+          <input
+            {...register("commercialPurposes", {
+              required: "This is a required field",
+            })}
+            type="radio"
+            value="Yes"
+            id="commercialPurposes-yes"
+          />
+          Yes
+        </label>
+        <label htmlFor="commercialPurposes-no">
+          <input
+            {...register("commercialPurposes", {
+              required: "This is a required field",
+            })}
+            type="radio"
+            value="No"
+            id="commercialPurposes-no"
+          />
+          No
+        </label>
+        <small className="text-danger">
+          <ErrorMessage errors={errors} name="commercialPurposes" />
+        </small>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>
+          Will the vehicle be used outside the registered state?
+        </FormLabel>
+        <label htmlFor="outOfRegisteredState-yes">
+          <input
+            {...register("outOfRegisteredState", {
+              required: "This is a required field",
+            })}
+            type="radio"
+            value="Yes"
+            id="outOfRegisteredState-yes"
+          />
+          Yes
+        </label>
+        <label htmlFor="outOfRegisteredState-no">
+          <input
+            {...register("outOfRegisteredState", {
+              required: "This is a required field",
+            })}
+            type="radio"
+            value="No"
+            id="outOfRegisteredState-no"
+          />
+          No
+        </label>
+        <small className="text-danger">
+          <ErrorMessage errors={errors} name="outOfRegisteredState" />
+        </small>
+      </FormControl>
+
+      <Form.Group width="equal">
+        <Form.Field>
+          <label>
+            What is the current value of the vehicle (range 0 - 50000)?
+          </label>
+          <Controller
+            name="currentValue"
+            control={control}
+            defaultValue={""}
+            rules={{ required: "This is a required field" }}
+            render={({ field: { name, value, onChange, ref } }) => (
+              <Select
+                name={name}
+                placeholder="Select..."
+                options={currentValueOptions}
+                value={currentValueOptions.find((c) => c.value === value)}
+                onChange={(val) => onChange(val.value)}
+                inputRef={ref}
+              />
+            )}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Date vehicle was first registered?</label>
+
+          <Controller
+            name="registrationDate"
+            control={control}
+            rules={{ required: "This is a required field" }}
+            defaultValue={new Date()}
+            render={({ onChange, value }) => (
+              <DatePicker 
+              selected={value} 
+              onChange={onChange} 
+              placeholderText='Select date'/>
+            )}
+          />
+        </Form.Field>
+      </Form.Group>
+
       <Button color="green">Submit</Button>
     </Form>
   );
