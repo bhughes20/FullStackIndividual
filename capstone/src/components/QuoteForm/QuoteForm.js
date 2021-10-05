@@ -1,18 +1,29 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { Button, Form } from "semantic-ui-react";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import {
+  Container,
+  Flex,
+  VStack,
+  Heading,
+  Text,
+  SimpleGrid,
+  GridItem,
   FormControl,
   FormLabel,
+  FormErrorMessage,
+  Input,
+  Button,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useBreakpointValue,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 export default function QuoteForm() {
   const {
@@ -23,6 +34,9 @@ export default function QuoteForm() {
   } = useForm({
     mode: "onBlur",
   });
+
+  const colSpan1 = useBreakpointValue({ base: 6, md: 2 });
+  const colSpan2 = useBreakpointValue({ base: 6, md: 3 });
 
   const prefixOptions = [
     { value: "Dr", label: "Dr" },
@@ -58,390 +72,475 @@ export default function QuoteForm() {
     { value: "40001 to 50000", label: "40001 to 50000" },
   ];
 
-  const handleRegistration = (data) => console.log(data);
+  const handleRegistration = (data) => {
+    const endpoint =
+      "https://615c67bcc298130017736174.mockapi.io/api/1/drivers";
+
+    axios
+      .post(endpoint, data)
+      .then((response) => console.log(response.data))
+      .catch((error) => console.log(error));
+  };
 
   const handleError = (errors) => {
     console.log(errors);
   };
 
   return (
-    <Form onSubmit={handleSubmit(handleRegistration, handleError)}>
-      <Form.Group widths="equal">
-        <Form.Field>
-          <label>Prefix</label>
-          <Controller
-            name="prefix"
-            control={control}
-            defaultValue={""}
-            rules={{ required: "Prefix is a required field" }}
-            render={({ field: { name, value, onChange, ref } }) => (
-              <Select
-                name={name}
-                placeholder="Select..."
-                options={prefixOptions}
-                value={prefixOptions.find((c) => c.value === value)}
-                onChange={(val) => onChange(val.value)}
-                inputRef={ref}
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="prefix" />
-          </small>
-        </Form.Field>
+    <Container maxWidth="container.xl" padding={0}>
+      <Flex
+        h={{ base: "auto", md: "100vh" }}
+        py={[0, 10, 20]}
+        direction={{ base: "column-reverse", md: "row" }}
+      >
+        <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
+          <VStack spacing={3} alignItems="flex-start">
+            <Heading size="2xl">Driver Details</Heading>
+            <Text>Please enter your driver details below to get a quote.</Text>
+          </VStack>
 
-        <Form.Field>
-          <label>First Name</label>
-          <Controller
-            name="firstName"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: "First Name is a required field",
-              maxLength: {
-                value: 50,
-                message: "Max length is 50 characters",
-              },
-              pattern: {
-                value: /^[a-z ,.'-]+$/i,
-                message: "Names must begin with a letter",
-              },
-            }}
-            render={({ field: { value, onChange } }) => (
-              <input
-                value={value}
-                onChange={onChange}
-                placeholder="Please Enter First Name"
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="firstName" />
-          </small>
-        </Form.Field>
-
-        <Form.Field>
-          <label>Last Name</label>
-          <Controller
-            name="lastName"
-            control={control}
-            defaultValue=""
-            rules={{
-              required: "Last Name is a required field",
-              maxLength: {
-                value: 50,
-                message: "Max length is 50 characters",
-              },
-              pattern: {
-                value: /^[a-z ,.'-]+$/i,
-                message: "Names must begin with a letter",
-              },
-            }}
-            render={({ field: { value, onChange } }) => (
-              <input
-                value={value}
-                onChange={onChange}
-                placeholder="Please Enter Last Name"
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="lastName" />
-          </small>
-        </Form.Field>
-      </Form.Group>
-
-      <Form.Field>
-        <label>Telephone Number</label>
-        <Controller
-          name="telephoneNumber"
-          rules={{
-            required: "Telephone Number is a required field",
-            maxLength: {
-              value: 11,
-              message: "Telephone Number must be 11 digits",
-            },
-            minLength: {
-              value: 11,
-              message: "Telephone Number must be 11 digits",
-            },
-          }}
-          control={control}
-          defaultValue=""
-          render={({ field: { value, onChange } }) => (
-            <input
-              type="tel"
-              placeholder="Please Enter Tel..."
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
-        <small className="text-danger">
-          <ErrorMessage errors={errors} name="telephoneNumber" />
-        </small>
-      </Form.Field>
-
-      <Form.Field>
-        <label>Address Line 1 (Street)</label>
-        <Controller
-          name="addressLine1"
-          rules={{ required: "Address Line 1 (Street) is a required field" }}
-          control={control}
-          defaultValue=""
-          render={({ field: { value, onChange } }) => (
-            <input
-              placeholder="Please Enter Address Line 1 (Street)..."
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
-        <small className="text-danger">
-          <ErrorMessage errors={errors} name="addressLine1" />
-        </small>
-      </Form.Field>
-
-      <Form.Field>
-        <label>Address Line 2 (Road)</label>
-        <Controller
-          name="addressLine2"
-          rules={{ required: "Address Line 2 (Road) is a required field" }}
-          control={control}
-          defaultValue=""
-          render={({ field: { value, onChange } }) => (
-            <input
-              placeholder="Please Enter Address Line 2 (Road)..."
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
-        <small className="text-danger">
-          <ErrorMessage errors={errors} name="addressLine2" />
-        </small>
-      </Form.Field>
-
-      <Form.Group widths="equal">
-        <Form.Field>
-          <label>City</label>
-          <Controller
-            name="city"
-            rules={{ required: "City is a required field" }}
-            control={control}
-            defaultValue=""
-            render={({ field: { value, onChange } }) => (
-              <input
-                placeholder="Please Enter City..."
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="city" />
-          </small>
-        </Form.Field>
-
-        <Form.Field>
-          <label>Postcode / Zip code</label>
-          <Controller
-            name="postcodeOrZip"
-            rules={{ required: "Postcode / Zip is a required field" }}
-            control={control}
-            defaultValue=""
-            render={({ field: { value, onChange } }) => (
-              <input
-                placeholder="Please Enter Postcode / Zip..."
-                value={value}
-                onChange={onChange}
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="postcodeOrZip" />
-          </small>
-        </Form.Field>
-      </Form.Group>
-
-      <Form.Group widths="equal">
-        <Form.Field>
-          <label>Vehicle Type</label>
-          <Controller
-            name="vehicleType"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Vehicle Type is a required field" }}
-            render={({ field: { name, value, onChange, ref } }) => (
-              <Select
-                name={name}
-                placeholder="Select..."
-                options={vehicleTypeOptions}
-                value={vehicleTypeOptions.find((c) => c.value === value)}
-                onChange={(val) => onChange(val.value)}
-                inputRef={ref}
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="vehicleType" />
-          </small>
-        </Form.Field>
-
-        <Form.Field>
-          <label>Engine Size</label>
-          <Controller
-            name="engineSize"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Engine Size is a required field" }}
-            render={({ field: { name, value, onChange, ref } }) => (
-              <Select
-                name={name}
-                placeholder="Select..."
-                options={engineSizeOptions}
-                value={engineSizeOptions.find((c) => c.value === value)}
-                onChange={(val) => onChange(val.value)}
-                inputRef={ref}
-              />
-            )}
-          />
-          <small className="text-danger">
-            <ErrorMessage errors={errors} name="engineSize" />
-          </small>
-        </Form.Field>
-      </Form.Group>
-
-      <FormControl>
-        <FormLabel>Additional Drivers</FormLabel>
-        <Controller
-          name="additionalDrivers"
-          rules={{ required: "This is a required field" }}
-          control={control}
-          defaultValue=""
-          render={({ field: { value, onChange } }) => (
-            <NumberInput
-              step={1}
-              defaultValue={1}
-              min={1}
-              max={4}
-              value={value}
-              onChange={onChange}
+          <form onSubmit={handleSubmit(handleRegistration, handleError)}>
+            <SimpleGrid
+              padding={[0, 10, 20]}
+              bgColor="grey.200"
+              columns={6}
+              columnGap={3}
+              rowGap={6}
+              w="full"
             >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          )}
-        />
-        <small className="text-danger">
-          <ErrorMessage errors={errors} name="additionalDrivers" />
-        </small>
-      </FormControl>
+              <GridItem colSpan={colSpan1}>
+                <FormControl isInvalid={errors.prefix}>
+                  <FormLabel htmlFor="prefix">Prefix</FormLabel>
+                  <Controller
+                    id="prefix"
+                    name="prefix"
+                    control={control}
+                    defaultValue={""}
+                    rules={{ required: "Prefix is a required field" }}
+                    render={({ field: { name, value, onBlur, onChange, ref } }) => (
+                      <Select
+                        name={name}
+                        placeholder="Select..."
+                        options={prefixOptions}
+                        value={prefixOptions.find((c) => c.value === value)}
+                        onChange={(val) => onChange(val.value)}
+                        onBlur={(val) => onBlur(val)}
+                        inputRef={ref}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.prefix && errors.prefix.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan1}>
+                <FormControl isInvalid={errors.firstName}>
+                  <FormLabel htmlFor="firstName">First Name</FormLabel>
+                  <Controller
+                    id="firstName"
+                    name="firstName"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: "First Name is a required field",
+                      maxLength: {
+                        value: 50,
+                        message: "Max length is 50 characters",
+                      },
+                      pattern: {
+                        value: /^[a-z ,.'-]+$/i,
+                        message: "Names must begin with a letter",
+                      },
+                    }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder="Please Enter First Name"
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.firstName && errors.firstName.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan1}>
+                <FormControl isInvalid={errors.lastName}>
+                  <FormLabel htmlFor="lastName">Last Name</FormLabel>
+                  <Controller
+                    id="lastName"
+                    name="lastName"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: "Last Name is a required field",
+                      maxLength: {
+                        value: 50,
+                        message: "Max length is 50 characters",
+                      },
+                      pattern: {
+                        value: /^[a-z ,.'-]+$/i,
+                        message: "Names must begin with a letter",
+                      },
+                    }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder="Please Enter Last Name"
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.lastName && errors.lastName.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
 
-      <FormControl>
-        <FormLabel>Will the vehicle be used for commercial purposes?</FormLabel>
-        <label htmlFor="commercialPurposes-yes">
-          <input
-            {...register("commercialPurposes", {
-              required: "This is a required field",
-            })}
-            type="radio"
-            value="Yes"
-            id="commercialPurposes-yes"
-          />
-          Yes
-        </label>
-        <label htmlFor="commercialPurposes-no">
-          <input
-            {...register("commercialPurposes", {
-              required: "This is a required field",
-            })}
-            type="radio"
-            value="No"
-            id="commercialPurposes-no"
-          />
-          No
-        </label>
-        <small className="text-danger">
-          <ErrorMessage errors={errors} name="commercialPurposes" />
-        </small>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          Will the vehicle be used outside the registered state?
-        </FormLabel>
-        <label htmlFor="outOfRegisteredState-yes">
-          <input
-            {...register("outOfRegisteredState", {
-              required: "This is a required field",
-            })}
-            type="radio"
-            value="Yes"
-            id="outOfRegisteredState-yes"
-          />
-          Yes
-        </label>
-        <label htmlFor="outOfRegisteredState-no">
-          <input
-            {...register("outOfRegisteredState", {
-              required: "This is a required field",
-            })}
-            type="radio"
-            value="No"
-            id="outOfRegisteredState-no"
-          />
-          No
-        </label>
-        <small className="text-danger">
-          <ErrorMessage errors={errors} name="outOfRegisteredState" />
-        </small>
-      </FormControl>
-
-      <Form.Group width="equal">
-        <Form.Field>
-          <label>
-            What is the current value of the vehicle (range 0 - 50000)?
-          </label>
-          <Controller
-            name="currentValue"
-            control={control}
-            defaultValue={""}
-            rules={{ required: "This is a required field" }}
-            render={({ field: { name, value, onChange, ref } }) => (
-              <Select
-                name={name}
-                placeholder="Select..."
-                options={currentValueOptions}
-                value={currentValueOptions.find((c) => c.value === value)}
-                onChange={(val) => onChange(val.value)}
-                inputRef={ref}
-              />
-            )}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Date vehicle was first registered?</label>
-
-          <Controller
-            name="registrationDate"
-            control={control}
-            rules={{ required: "This is a required field" }}
-            defaultValue={new Date()}
-            render={({ onChange, value }) => (
-              <DatePicker 
-              selected={value} 
-              onChange={onChange} 
-              placeholderText='Select date'/>
-            )}
-          />
-        </Form.Field>
-      </Form.Group>
-
-      <Button color="green">Submit</Button>
-    </Form>
+              <GridItem colSpan={6}>
+                <FormControl isInvalid={errors.telephoneNumber}>
+                  <FormLabel htmlFor="telephoneNumber">Telephone Number</FormLabel>
+                  <Controller
+                    id="telephoneNumber"
+                    name="telephoneNumber"
+                    rules={{
+                      required: "Telephone Number is a required field",
+                      maxLength: {
+                        value: 11,
+                        message: "Telephone Number must be 11 digits",
+                      },
+                      minLength: {
+                        value: 11,
+                        message: "Telephone Number must be 11 digits",
+                      },
+                    }}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        type="tel"
+                        placeholder="Please Enter Tel..."
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.telephoneNumber && errors.telephoneNumber.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={6}>
+                <FormControl isInvalid={errors.addressLine1}>
+                  <FormLabel htmlFor="addressLine1">Address Line 1 (Street)</FormLabel>
+                  <Controller
+                    id="addressLine1"
+                    name="addressLine1"
+                    rules={{
+                      required: "Address Line 1 (Street) is a required field",
+                    }}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        placeholder="Please Enter Address Line 1 (Street)..."
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.addressLine1 && errors.addressLine1.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={6}>
+                <FormControl isInvalid={errors.addressLine2}>
+                  <FormLabel htmlFor="addressLine2">Address Line 2 (Road)</FormLabel>
+                  <Controller
+                    id="addressLine2"
+                    name="addressLine2"
+                    rules={{
+                      required: "Address Line 2 (Road) is a required field",
+                    }}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        placeholder="Please Enter Address Line 2 (Road)..."
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.addressLine2 && errors.addressLine2.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.city}>
+                  <FormLabel htmlFor="city">City</FormLabel>
+                  <Controller
+                    id="city"
+                    name="city"
+                    rules={{ required: "City is a required field" }}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        placeholder="Please Enter City..."
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.city && errors.city.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.postcodeOrZip}>
+                  <FormLabel htmlFor="postcodeOrZip">Postcode / Zip</FormLabel>
+                  <Controller
+                    id="postcodeOrZip"
+                    name="postcodeOrZip"
+                    rules={{ required: "Postcode / Zip is a required field" }}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        placeholder="Please Enter Postcode / Zip..."
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.postcodeOrZip && errors.postcodeOrZip.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.vehicleType}>
+                  <FormLabel htmlFor="vehicleType">Vehicle Type</FormLabel>
+                  <Controller
+                    id="vehicleType"
+                    name="vehicleType"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Vehicle Type is a required field" }}
+                    render={({ field: { name, value, onChange, onBlur, ref } }) => (
+                      <Select
+                        name={name}
+                        placeholder="Select..."
+                        options={vehicleTypeOptions}
+                        value={vehicleTypeOptions.find(
+                          (c) => c.value === value
+                        )}
+                        onChange={(val) => onChange(val.value)}
+                        onBlur={(val) => onBlur(val)}
+                        inputRef={ref}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.vehicleType && errors.vehicleType.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.engineSize}>
+                  <FormLabel htmlFor="engineSize">Engine Size</FormLabel>
+                  <Controller
+                    id="engineSize"
+                    name="engineSize"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Engine Size is a required field" }}
+                    render={({ field: { name, value, onChange, onBlur, ref } }) => (
+                      <Select
+                        name={name}
+                        placeholder="Select..."
+                        options={engineSizeOptions}
+                        value={engineSizeOptions.find((c) => c.value === value)}
+                        onChange={(val) => onChange(val.value)}
+                        onBlur={(val) => onBlur(val)}
+                        inputRef={ref}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.engineSize && errors.engineSize.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={6}>
+                <FormControl isInvalid={errors.additionalDrivers}>
+                  <FormLabel htmlFor="additionalDrivers">Additional Drivers</FormLabel>
+                  <Controller
+                    id="additionalDrivers"
+                    name="additionalDrivers"
+                    rules={{ required: "This is a required field" }}
+                    control={control}
+                    defaultValue=""
+                    render={({ field: { onChange, onBlur } }) => (
+                      <NumberInput
+                        defaultValue={1}
+                        min={1}
+                        max={4}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.additionalDrivers && errors.additionalDrivers.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.commercialPurposes}>
+                  <FormLabel htmlFor="commercialPurposes">
+                    Will the vehicle be used for commercial purposes?
+                  </FormLabel>
+                  <label htmlFor="commercialPurposes-yes">
+                    <input
+                      {...register("commercialPurposes", {
+                        required: "This is a required field",
+                      })}
+                      type="radio"
+                      value="Yes"
+                      id="commercialPurposes-yes"
+                    />
+                    Yes
+                  </label>
+                  <label htmlFor="commercialPurposes-no">
+                    <input
+                      {...register("commercialPurposes", {
+                        required: "This is a required field",
+                      })}
+                      type="radio"
+                      value="No"
+                      id="commercialPurposes-no"
+                    />
+                    No
+                  </label>
+                  <FormErrorMessage>
+                    {errors.commercialPurposes && errors.commercialPurposes.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.outOfRegisteredState}>
+                  <FormLabel htmlFor="outOfRegisteredState">
+                    Will the vehicle be used outside the registered state?
+                  </FormLabel>
+                  <label htmlFor="outOfRegisteredState-yes">
+                    <input
+                      {...register("outOfRegisteredState", {
+                        required: "This is a required field",
+                      })}
+                      type="radio"
+                      value="Yes"
+                      id="outOfRegisteredState-yes"
+                    />
+                    Yes
+                  </label>
+                  <label htmlFor="outOfRegisteredState-no">
+                    <input
+                      {...register("outOfRegisteredState", {
+                        required: "This is a required field",
+                      })}
+                      type="radio"
+                      value="No"
+                      id="outOfRegisteredState-no"
+                    />
+                    No
+                  </label>
+                  <FormErrorMessage>
+                    {errors.outOfRegisteredState && errors.outOfRegisteredState.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.currentValue}>
+                  <FormLabel htmlFor="currentValue">
+                    What is the current value of the vehicle (range 0 - 50000)?
+                  </FormLabel>
+                  <Controller
+                    id="currentValue"
+                    name="currentValue"
+                    control={control}
+                    defaultValue={""}
+                    rules={{ required: "This is a required field" }}
+                    render={({ field: { name, value, onChange, onBlur, ref } }) => (
+                      <Select
+                        name={name}
+                        placeholder="Select..."
+                        options={currentValueOptions}
+                        value={currentValueOptions.find(
+                          (c) => c.value === value
+                        )}
+                        onChange={(val) => onChange(val.value)}
+                        onBlur={(val) => onBlur(val)}
+                        inputRef={ref}
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.currentValue && errors.currentValue.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={colSpan2}>
+                <FormControl isInvalid={errors.registrationDate}>
+                  <FormLabel htmlFor="registrationDate">Date vehicle was first registered?</FormLabel>
+                  <Controller
+                    id="registrationDate"
+                    name="registrationDate"
+                    control={control}
+                    rules={{ required: "This is a required field" }}
+                    defaultValue={new Date()}
+                    render={({ field: {onChange, onBlur, value }}) => (
+                      <DatePicker
+                        selected={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholderText="Select date"
+                      />
+                    )}
+                  />
+                  <FormErrorMessage>
+                    {errors.registrationDate && errors.registrationDate.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={6}>
+                <Button type="submit" size="lg" w="50%">
+                  Submit
+                </Button>
+              </GridItem>
+            </SimpleGrid>
+          </form>
+        </VStack>
+      </Flex>
+    </Container>
   );
 }
