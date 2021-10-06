@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import {
@@ -95,7 +94,7 @@ export default function QuoteForm() {
       >
         <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
           <VStack spacing={3} alignItems="flex-start">
-            <Heading size="2xl">Driver Details</Heading>
+            <Heading size="2xl">Get Quote</Heading>
             <Text>Please enter your driver details below to get a quote.</Text>
           </VStack>
 
