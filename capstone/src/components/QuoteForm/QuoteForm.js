@@ -216,6 +216,10 @@ export default function QuoteForm() {
                         value: 11,
                         message: "Telephone Number must be 11 digits",
                       },
+                      pattern: {
+                        value: /^[0-9]/i,
+                        message: "Telephone Number must be numeric digits",
+                      }
                     }}
                     control={control}
                     defaultValue=""

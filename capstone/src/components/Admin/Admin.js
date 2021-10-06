@@ -1,13 +1,15 @@
 import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useHistory } from "react-router";
+import axios from "axios";
 import {
   Container,
   Flex,
   VStack,
-  HStack,
-  Stack,
   Heading,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Button,
   Divider,
@@ -19,6 +21,74 @@ import {
 export default function Admin() {
   const colSpan1 = useBreakpointValue({ base: 2, md: 1 });
   const colSpan2 = useBreakpointValue({ base: 3, md: 1 });
+  let history = useHistory();
+
+  const {
+    handleSubmit: handleSubmitGetDetails,
+    control: controlGetDetails,
+    formState: { errors: errorsGetDetails },
+  } = useForm({
+    mode: "onBlur",
+  });
+
+  const {
+    handleSubmit: handleSubmitDeleteRecord,
+    control: controlDeleteRecord,
+    formState: { errors: errorsDeleteRecord },
+  } = useForm({
+    mode: "onBlur",
+  });
+
+  const {
+    handleSubmit: handleSubmitUpdateDriverTel,
+    control: controlUpdateDriverTel,
+    formState: { errors: errorsUpdateDriverTel },
+  } = useForm({
+    mode: "onBlur",
+  });
+
+  const handleRegistrationGetDetails = (data) => {
+    const id = data.getDetailsId;
+    console.log(data);
+    const redirectEndpoint = `/driver-details/${id}`;
+    history.push(redirectEndpoint);
+  };
+
+  const handleRegistrationDeleteRecord = (data) => {
+    const id = data.deleteDriverId;
+    console.log(data);
+
+    const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
+    axios.delete(url)
+      .catch(
+        (error) => { console.log(error) }
+      );
+  };
+
+  const handleRegistrationUpdateDriverTel = (data) => {
+    const id = data.updateDriverId;
+    console.log(data);
+    const redirectEndpoint = `/driver-details/${id}`;
+
+    const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
+    axios.put(url, data)
+      .catch(
+        (error) => { console.log(error) }
+      );
+  }
+
+  const handleErrorGetDetails = (errors) => {
+    console.log(errors);
+  };
+
+  const handleErrorDeleteRecord = (errors) => {
+    console.log(errors);
+  };
+
+  const handleErrorUpdateDriverTel = (errors) => {
+    console.log(errors);
+  };
+
   return (
     <Container maxWidth="container.xl" padding={0} centerContent>
       <Flex
@@ -31,7 +101,9 @@ export default function Admin() {
             <Heading size="2xl">Admin</Heading>
           </VStack>
 
-          <form>
+          <form
+            onSubmit={handleSubmitGetDetails(handleRegistrationGetDetails, handleErrorGetDetails)}
+          >
             <SimpleGrid
               padding={[0, 10, 20]}
               bgColor="grey.200"
@@ -47,13 +119,32 @@ export default function Admin() {
                 </Heading>
               </GridItem>
               <GridItem colSpan={colSpan1}>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={errorsGetDetails.getDetailsId}>
                   <FormLabel htmlFor="getDetailsId">Driver ID</FormLabel>
-                  <Input
+                  <Controller
                     id="getDetailsId"
                     name="getDetailsId"
-                    placeholder="Please Enter Driver ID"
+                    control={controlGetDetails}
+                    defaultValue=""
+                    rules={{
+                      required: "Driver ID is a required field",
+                      pattern: {
+                        value: /^[0-9]/i,
+                        message: "ID must be numeric digits",
+                      },
+                    }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder="Please Enter Driver ID"
+                      />
+                    )}
                   />
+                  <FormErrorMessage>
+                    {errorsGetDetails.getDetailsId && errorsGetDetails.getDetailsId.message}
+                  </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan1}>
@@ -66,7 +157,9 @@ export default function Admin() {
 
           <Divider />
 
-          <form>
+          <form
+            onSubmit={handleSubmitDeleteRecord(handleRegistrationDeleteRecord, handleErrorDeleteRecord)}
+          >
             <SimpleGrid
               padding={[0, 10, 20]}
               bgColor="grey.200"
@@ -82,13 +175,32 @@ export default function Admin() {
                 </Heading>
               </GridItem>
               <GridItem colSpan={colSpan1}>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={errorsDeleteRecord.deleteDriverId}>
                   <FormLabel htmlFor="deleteDriverId">Driver ID</FormLabel>
-                  <Input
+                  <Controller
                     id="deleteDriverId"
                     name="deleteDriverId"
-                    placeholder="Please Enter Driver ID"
+                    control={controlDeleteRecord}
+                    defaultValue=""
+                    rules={{
+                      required: "Driver ID is a required field",
+                      pattern: {
+                        value: /^[0-9]/i,
+                        message: "ID must be numeric digits",
+                      },
+                    }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder="Please Enter Driver ID"
+                      />
+                    )}
                   />
+                  <FormErrorMessage>
+                    {errorsDeleteRecord.deleteDriverId && errorsDeleteRecord.deleteDriverId.message}
+                  </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan1}>
@@ -101,7 +213,7 @@ export default function Admin() {
 
           <Divider />
 
-          <form>
+          <form onSubmit={handleSubmitUpdateDriverTel(handleRegistrationUpdateDriverTel, handleErrorUpdateDriverTel)}>
             <SimpleGrid
               padding={[0, 10, 20]}
               bgColor="grey.200"
@@ -117,26 +229,72 @@ export default function Admin() {
                 </Heading>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={errorsUpdateDriverTel.updateDriverId}>
                   <FormLabel htmlFor="updateDriverId">Driver ID</FormLabel>
-                  <Input
+                  <Controller
                     id="updateDriverId"
                     name="updateDriverId"
-                    placeholder="Please Enter Driver ID"
+                    control={controlUpdateDriverTel}
+                    defaultValue=""
+                    rules={{
+                      required: "Driver ID is a required field",
+                      pattern: {
+                        value: /^[0-9]/i,
+                        message: "ID must be numeric digits",
+                      },
+                    }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder="Please Enter Driver ID"
+                      />
+                    )}
                   />
+                  <FormErrorMessage>
+                    {errorsUpdateDriverTel.updateDriverId && errorsUpdateDriverTel.updateDriverId.message}
+                  </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired>
+                <FormControl isRequired isInvalid={errorsUpdateDriverTel.updateDriverTel}>
                   <FormLabel htmlFor="updateDriverTel">
                     New Telephone Number
                   </FormLabel>
-                  <Input
+                  <Controller
                     id="updateDriverTel"
                     name="updateDriverTel"
-                    type="tel"
-                    placeholder="Please Enter Tel..."
+                    rules={{
+                      required: "Telephone Number is a required field",
+                      maxLength: {
+                        value: 11,
+                        message: "Telephone Number must be 11 digits",
+                      },
+                      minLength: {
+                        value: 11,
+                        message: "Telephone Number must be 11 digits",
+                      },
+                      pattern: {
+                        value: /^[0-9]/i,
+                        message: "Telephone Number must be numeric digits",
+                      }
+                    }}
+                    control={controlUpdateDriverTel}
+                    defaultValue=""
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <Input
+                        type="tel"
+                        placeholder="Please Enter Tel..."
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    )}
                   />
+                  <FormErrorMessage>
+                    {errorsUpdateDriverTel.updateDriverTel && errorsUpdateDriverTel.updateDriverTel.message}
+                  </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan1}>
