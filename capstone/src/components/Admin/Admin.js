@@ -60,9 +60,10 @@ export default function Admin() {
 
     const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
     axios.delete(url)
-      .catch(
-        (error) => { console.log(error) }
-      );
+    .then((response) => console.log(response))
+    .catch(
+      (error) => { console.log(error) }
+    );
   };
 
   const handleRegistrationUpdateDriverTel = (data) => {
@@ -72,6 +73,8 @@ export default function Admin() {
 
     const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
     axios.put(url, data)
+      .then((response) => console.log(response))
+      .then(() => history.push(redirectEndpoint))
       .catch(
         (error) => { console.log(error) }
       );
