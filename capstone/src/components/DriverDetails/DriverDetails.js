@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Container,
@@ -8,42 +8,53 @@ import {
   Heading,
   Divider,
   HStack,
-  Text
+  Text,
 } from "@chakra-ui/react";
 
 export default function DriverDetails() {
-
   const { id } = useParams();
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
-    axios.get(url)
-      .then(response => setData(response.data))
-      .then(response => {console.log(response)})
-      .catch(
-        (err) => { console.log(err) }
-    );
+    axios
+      .get(url)
+      .then((response) => setData(response.data))
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [id]);
-
 
   if (!data) return null;
 
   return (
     <Container maxWidth="container.xl" padding={0} centerContent>
       <Flex
-        h={{ base: "auto", md: "100vh" }}
-        py={[0, 10, 20]}
+        bgColor="grey.400"
+        h={{ base: "auto", md: "full" }}
+        py={[0, 5]}
         direction={{ base: "column-reverse", md: "row" }}
       >
-        <VStack p={10} spacing={10} alignItems="flex-start">
+        <VStack px={10} spacing={10} alignItems="flex-start" w="full">
           <VStack spacing={3} alignItems="flex-start">
-            <Heading as="h1" size="2xl">Driver Details for {data.firstName} {data.lastName}</Heading>
-            <Divider />
+            <Heading as="h1" size="xl">
+              Driver Details for {data.firstName} {data.lastName}
+            </Heading>
           </VStack>
 
-          <VStack spacing={1} alignItems="stretch" w="full">
-            <Heading as="h2">Personal Details</Heading>
+          <VStack
+            spacing={1}
+            p={3}
+            bgColor="grey.200"
+            alignItems="stretch"
+            w="full"
+          >
+            <Heading as="h2" size="lg" pb={3}>
+              Personal Details
+            </Heading>
             <HStack justifyContent="space-between">
               <Text>Prefix</Text>
               <Text>{data.prefix}</Text>
@@ -58,9 +69,17 @@ export default function DriverDetails() {
             </HStack>
             <Divider />
           </VStack>
-          
-          <VStack spacing={1} alignItems="stretch" w="full">
-            <Heading as="h2">Contact Details</Heading>
+
+          <VStack
+            spacing={1}
+            p={3}
+            bgColor="grey.200"
+            alignItems="stretch"
+            w="full"
+          >
+            <Heading as="h2" size="lg" pb={3}>
+              Contact Details
+            </Heading>
             <HStack justifyContent="space-between">
               <Text>Telephone Number</Text>
               <Text>{data.telephoneNumber}</Text>
@@ -83,9 +102,17 @@ export default function DriverDetails() {
             </HStack>
             <Divider />
           </VStack>
-          
-          <VStack spacing={1} alignItems="stretch" w="full">
-            <Heading as="h2">Vehicle Details</Heading>
+
+          <VStack
+            spacing={1}
+            p={3}
+            bgColor="grey.200"
+            alignItems="stretch"
+            w="full"
+          >
+            <Heading as="h2" size="lg" pb={3}>
+              Vehicle Details
+            </Heading>
             <HStack justifyContent="space-between">
               <Text>Vehicle Type</Text>
               <Text>{data.vehicleType}</Text>
@@ -103,7 +130,9 @@ export default function DriverDetails() {
               <Text>{data.commercialPurposes}</Text>
             </HStack>
             <HStack justifyContent="space-between">
-              <Text>Will the vehicle be used outside the registered state?</Text>
+              <Text>
+                Will the vehicle be used outside the registered state?
+              </Text>
               <Text>{data.outOfRegisteredState}</Text>
             </HStack>
             <HStack justifyContent="space-between">
@@ -112,11 +141,15 @@ export default function DriverDetails() {
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Date Registered</Text>
-              <Text>{data.registrationDate}</Text>
+              <Text>
+                {new Intl.DateTimeFormat("en-GB").format(
+                  new Date(data.registrationDate)
+                )}
+              </Text>
             </HStack>
           </VStack>
         </VStack>
       </Flex>
     </Container>
-  )
+  );
 }

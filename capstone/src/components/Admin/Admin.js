@@ -102,11 +102,12 @@ export default function Admin() {
   return (
     <Container maxWidth="container.xl" padding={0} centerContent>
       <Flex
-        h={{ base: "auto", md: "100vh" }}
-        py={[0, 10, 20]}
+        bgColor="grey.400"
+        h={{ base: "auto", md: "full" }}
+        py={[0, 10]}
         direction={{ base: "column-reverse", md: "row" }}
       >
-        <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
+        <VStack w="full" h="full" px={10} spacing={10} alignItems="flex-start">
           <VStack spacing={3} alignItems="flex-start">
             <Heading size="2xl">Admin</Heading>
           </VStack>
@@ -115,7 +116,7 @@ export default function Admin() {
             onSubmit={handleSubmitGetDetails(handleRegistrationGetDetails, handleErrorGetDetails)}
           >
             <SimpleGrid
-              padding={[0, 10, 20]}
+              padding={[0, 10]}
               bgColor="grey.200"
               columns={3}
               columnGap={3}
@@ -145,6 +146,7 @@ export default function Admin() {
                     }}
                     render={({ field: { value, onChange, onBlur } }) => (
                       <Input
+
                         value={value}
                         onChange={onChange}
                         onBlur={onBlur}
@@ -171,7 +173,7 @@ export default function Admin() {
             onSubmit={handleSubmitDeleteRecord(handleRegistrationDeleteRecord, handleErrorDeleteRecord)}
           >
             <SimpleGrid
-              padding={[0, 10, 20]}
+              padding={[0, 10]}
               bgColor="grey.200"
               columns={3}
               columnGap={3}
@@ -225,7 +227,7 @@ export default function Admin() {
 
           <form onSubmit={handleSubmitUpdateDriverTel(handleRegistrationUpdateDriverTel, handleErrorUpdateDriverTel)}>
             <SimpleGrid
-              padding={[0, 10, 20]}
+              padding={[0, 10]}
               bgColor="grey.200"
               columns={3}
               columnGap={3}

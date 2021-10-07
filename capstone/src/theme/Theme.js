@@ -60,7 +60,7 @@ const theme = extendTheme({
     }
 },
 withDefaultColorScheme({
-    colorScheme: "blue",
+    colorScheme: "lightblue",
     components: ["Button"]
 }),
 withDefaultVariant({

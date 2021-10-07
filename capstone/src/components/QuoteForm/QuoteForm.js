@@ -21,11 +21,6 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   useBreakpointValue,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  CloseButton
 } from "@chakra-ui/react";
 import axios from "axios";
 
@@ -132,8 +127,9 @@ export default function QuoteForm() {
   return (
     <Container maxWidth="container.xl" padding={0}>
       <Flex
-        h={{ base: "auto", md: "100vh" }}
-        py={[0, 10, 20]}
+        bgColor="grey.400"
+        h={{ base: "auto", md: "full" }}
+        py={[0, 10]}
         direction={{ base: "column-reverse", md: "row" }}
       >
         <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
@@ -152,7 +148,7 @@ export default function QuoteForm() {
               w="full"
             >
               <GridItem colSpan={colSpan1}>
-                <FormControl isInvalid={errors.prefix}>
+                <FormControl isRequired isInvalid={errors.prefix}>
                   <FormLabel htmlFor="prefix">Prefix</FormLabel>
                   <Controller
                     id="prefix"
@@ -179,7 +175,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan1}>
-                <FormControl isInvalid={errors.firstName}>
+                <FormControl isRequired isInvalid={errors.firstName}>
                   <FormLabel htmlFor="firstName">First Name</FormLabel>
                   <Controller
                     id="firstName"
@@ -212,7 +208,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan1}>
-                <FormControl isInvalid={errors.lastName}>
+                <FormControl isRequired isInvalid={errors.lastName}>
                   <FormLabel htmlFor="lastName">Last Name</FormLabel>
                   <Controller
                     id="lastName"
@@ -246,7 +242,7 @@ export default function QuoteForm() {
               </GridItem>
 
               <GridItem colSpan={6}>
-                <FormControl isInvalid={errors.telephoneNumber}>
+                <FormControl isRequired isInvalid={errors.telephoneNumber}>
                   <FormLabel htmlFor="telephoneNumber">
                     Telephone Number
                   </FormLabel>
@@ -286,7 +282,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={6}>
-                <FormControl isInvalid={errors.addressLine1}>
+                <FormControl isRequired isInvalid={errors.addressLine1}>
                   <FormLabel htmlFor="addressLine1">
                     Address Line 1 (Street)
                   </FormLabel>
@@ -313,7 +309,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={6}>
-                <FormControl isInvalid={errors.addressLine2}>
+                <FormControl isRequired isInvalid={errors.addressLine2}>
                   <FormLabel htmlFor="addressLine2">
                     Address Line 2 (Road)
                   </FormLabel>
@@ -340,7 +336,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.city}>
+                <FormControl isRequired isInvalid={errors.city}>
                   <FormLabel htmlFor="city">City</FormLabel>
                   <Controller
                     id="city"
@@ -363,7 +359,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.postcodeOrZip}>
+                <FormControl isRequired isInvalid={errors.postcodeOrZip}>
                   <FormLabel htmlFor="postcodeOrZip">Postcode / Zip</FormLabel>
                   <Controller
                     id="postcodeOrZip"
@@ -386,7 +382,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl className="light-theme" isInvalid={errors.vehicleType}>
+                <FormControl isRequired isInvalid={errors.vehicleType}>
                   <FormLabel htmlFor="vehicleType">Vehicle Type</FormLabel>
                   <Controller
                     className="select"
@@ -417,10 +413,10 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl className="light-theme" isInvalid={errors.engineSize}>
+                <FormControl isRequired isInvalid={errors.engineSize}>
                   <FormLabel htmlFor="engineSize">Engine Size</FormLabel>
                   <Controller
-                    className = "select"
+                    className="select"
                     id="engineSize"
                     name="engineSize"
                     control={control}
@@ -446,7 +442,7 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={6}>
-                <FormControl isInvalid={errors.additionalDrivers}>
+                <FormControl isRequired isInvalid={errors.additionalDrivers}>
                   <FormLabel htmlFor="additionalDrivers">
                     Additional Drivers
                   </FormLabel>
@@ -478,32 +474,36 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.commercialPurposes}>
+                <FormControl isRequired isInvalid={errors.commercialPurposes}>
                   <FormLabel htmlFor="commercialPurposes">
                     Will the vehicle be used for commercial purposes?
                   </FormLabel>
-                  <label htmlFor="commercialPurposes-yes">
-                    <input
-                      {...register("commercialPurposes", {
-                        required: "This is a required field",
-                      })}
-                      type="radio"
-                      value="Yes"
-                      id="commercialPurposes-yes"
-                    />
-                    Yes
-                  </label>
-                  <label htmlFor="commercialPurposes-no">
-                    <input
-                      {...register("commercialPurposes", {
-                        required: "This is a required field",
-                      })}
-                      type="radio"
-                      value="No"
-                      id="commercialPurposes-no"
-                    />
-                    No
-                  </label>
+                  <div >
+                    <label className="radio-label" htmlFor="commercialPurposes-yes">
+                      <input
+                        {...register("commercialPurposes", {
+                          required: "This is a required field",
+                        })}
+                        type="radio"
+                        value="Yes"
+                        id="commercialPurposes-yes"
+                      />
+                      <span className="checkmark"></span>
+                      Yes
+                    </label>
+                    <label className="radio-label" htmlFor="commercialPurposes-no">
+                      <input
+                        {...register("commercialPurposes", {
+                          required: "This is a required field",
+                        })}
+                        type="radio"
+                        value="No"
+                        id="commercialPurposes-no"
+                      />
+                      <span className="checkmark"></span>
+                      No
+                    </label>
+                  </div>
                   <FormErrorMessage>
                     {errors.commercialPurposes &&
                       errors.commercialPurposes.message}
@@ -511,32 +511,36 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.outOfRegisteredState}>
+                <FormControl isRequired isInvalid={errors.outOfRegisteredState}>
                   <FormLabel htmlFor="outOfRegisteredState">
                     Will the vehicle be used outside the registered state?
                   </FormLabel>
-                  <label htmlFor="outOfRegisteredState-yes">
-                    <input
-                      {...register("outOfRegisteredState", {
-                        required: "This is a required field",
-                      })}
-                      type="radio"
-                      value="Yes"
-                      id="outOfRegisteredState-yes"
-                    />
-                    Yes
-                  </label>
-                  <label htmlFor="outOfRegisteredState-no">
-                    <input
-                      {...register("outOfRegisteredState", {
-                        required: "This is a required field",
-                      })}
-                      type="radio"
-                      value="No"
-                      id="outOfRegisteredState-no"
-                    />
-                    No
-                  </label>
+                  <div>
+                    <label className="radio-label" htmlFor="outOfRegisteredState-yes">
+                      <input
+                        {...register("outOfRegisteredState", {
+                          required: "This is a required field",
+                        })}
+                        type="radio"
+                        value="Yes"
+                        id="outOfRegisteredState-yes"
+                      />
+                      <span className="checkmark"></span>
+                      Yes
+                    </label>
+                    <label className="radio-label" htmlFor="outOfRegisteredState-no">
+                      <input
+                        {...register("outOfRegisteredState", {
+                          required: "This is a required field",
+                        })}
+                        type="radio"
+                        value="No"
+                        id="outOfRegisteredState-no"
+                      />
+                      <span className="checkmark"></span>
+                      No
+                    </label>
+                  </div>
                   <FormErrorMessage>
                     {errors.outOfRegisteredState &&
                       errors.outOfRegisteredState.message}
@@ -544,9 +548,9 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl className="light-theme" isInvalid={errors.currentValue}>
+                <FormControl isRequired isInvalid={errors.currentValue}>
                   <FormLabel htmlFor="currentValue">
-                    What is the current value of the vehicle (range 0 - 50000)?
+                    What is the current value of the vehicle?
                   </FormLabel>
                   <Controller
                     className="select"
@@ -568,7 +572,6 @@ export default function QuoteForm() {
                         onChange={(val) => onChange(val.value)}
                         onBlur={(val) => onBlur(val)}
                         inputRef={ref}
-                        
                       />
                     )}
                   />
@@ -578,7 +581,11 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl className="light-theme" isInvalid={errors.registrationDate}>
+                <FormControl
+                  className="light-theme"
+                  isRequired
+                  isInvalid={errors.registrationDate}
+                >
                   <FormLabel htmlFor="registrationDate">
                     Date vehicle was first registered?
                   </FormLabel>
@@ -591,6 +598,7 @@ export default function QuoteForm() {
                     defaultValue={new Date()}
                     render={({ field: { onChange, onBlur, value } }) => (
                       <DatePicker
+                        dateFormat="dd/MM/yyyy"
                         selected={value}
                         onChange={onChange}
                         onBlur={onBlur}

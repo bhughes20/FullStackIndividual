@@ -1,15 +1,65 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700;800");
 
-.input {
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid white;
-  padding: 10px 15px;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
+.radio-label {
+    display: inline;
+    position: relative;
+    padding-left: 35px;
+    margin-left: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  .radio-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 17px;
+    width: 17px;
+    background-color: #fff;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: rgb(226, 232, 240);
+    border-width: 1px;
+  }
+  
+  .radio-label:hover input ~ .checkmark {
+    background-color: #94a1b0;
+  }
+  
+  .radio-label input:checked ~ .checkmark {
+    background-color: #45bce5;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .radio-label input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  .radio-label .checkmark:after {
+    top: 5px;
+    left: 5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: white;
+  }
 
 .light-theme {
   --light-gray: var(--chakra-colors-gray-200);
@@ -33,11 +83,11 @@
 }
 
 .react-datepicker-wrapper,
-.react-datepicker__input-container, .select {
+.react-datepicker__input-container, .react-select-container {
   display: block;
 }
 
-.react-datepicker__input-container, .select {
+.react-datepicker__input-container, .react-select-container {
   font-size: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -47,14 +97,14 @@
   border-color: var(--light-gray);
   background-color: var(--chakra-colors-white);
 }
-.react-datapicker__input-text, .select {
+.react-datapicker__input-text, .react-select-container {
   background-color: var(--chakra-colors-white);
 }
 
-.react-datepicker__input-container:hover, .select:hover {
+.react-datepicker__input-container:hover, .react-select-container:hover {
   border-color: var(--gray);
 }
-.react-datepicker__input-container:focus-within, .select:focus-within {
+.react-datepicker__input-container:focus-within, .react-select-container:focus-within {
   z-index: 1;
   border-color: var(--blue600);
   box-shadow: 0 0 0 1px var(--blue600);
@@ -112,24 +162,6 @@
   background-color: var(--monthBackground);
   margin: 0;
   padding: 0.4rem;
-}
-
-.react-datepicker__time-container
-  .react-datepicker__time
-  .react-datepicker__time-box
-  ul.react-datepicker__time-list
-  li.react-datepicker__time-list-item {
-  margin: 0 1px 0 0;
-  height: auto;
-  padding: 7px 10px;
-}
-
-.react-datepicker__time-container
-  .react-datepicker__time
-  .react-datepicker__time-box
-  ul.react-datepicker__time-list
-  li.react-datepicker__time-list-item:hover {
-  background: var(--blue200);
 }
 
 .react-datepicker__day {
