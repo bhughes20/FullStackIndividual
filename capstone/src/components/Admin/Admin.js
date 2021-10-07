@@ -68,13 +68,20 @@ export default function Admin() {
 
   const handleRegistrationUpdateDriverTel = (data) => {
     const id = data.updateDriverId;
+    const telephoneNumber = data.updateDriverTel;
+
+    const formData = {
+      telephoneNumber : data.updateDriverTel
+    }
     console.log(data);
     const redirectEndpoint = `/driver-details/${id}`;
 
     const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
-    axios.put(url, data)
-      .then((response) => console.log(response))
-      .then(() => history.push(redirectEndpoint))
+    axios.put(url, formData)
+      .then((response) => {
+        console.log(response)
+        history.push(redirectEndpoint);
+      })
       .catch(
         (error) => { console.log(error) }
       );

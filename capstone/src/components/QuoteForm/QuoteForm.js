@@ -21,17 +21,43 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   useBreakpointValue,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton
 } from "@chakra-ui/react";
 import axios from "axios";
 
 export default function QuoteForm() {
+  const defaultValues = {
+    additionalDrivers: 1,
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    commercialPurposes: "",
+    currentValue: "",
+    engineSize: "",
+    firstName: "",
+    id: "",
+    lastName: "",
+    outOfRegisteredState: "",
+    postcodeOrZip: "",
+    prefix: { value: "", label: "" },
+    registrationDate: new Date(),
+    telephoneNumber: "",
+    vehicleType: "",
+  };
+
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
+    defaultValues: defaultValues,
   });
 
   const colSpan1 = useBreakpointValue({ base: 6, md: 2 });
@@ -78,7 +104,25 @@ export default function QuoteForm() {
     axios
       .post(endpoint, data)
       .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
+      .then(reset(defaultValues))
+      .catch(function (error) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log("Error", error.message);
+        }
+        console.log(error.config);
+      });
   };
 
   const handleError = (errors) => {
@@ -114,9 +158,10 @@ export default function QuoteForm() {
                     id="prefix"
                     name="prefix"
                     control={control}
-                    defaultValue={""}
                     rules={{ required: "Prefix is a required field" }}
-                    render={({ field: { name, value, onBlur, onChange, ref } }) => (
+                    render={({
+                      field: { name, value, onBlur, onChange, ref },
+                    }) => (
                       <Select
                         name={name}
                         placeholder="Select..."
@@ -202,7 +247,9 @@ export default function QuoteForm() {
 
               <GridItem colSpan={6}>
                 <FormControl isInvalid={errors.telephoneNumber}>
-                  <FormLabel htmlFor="telephoneNumber">Telephone Number</FormLabel>
+                  <FormLabel htmlFor="telephoneNumber">
+                    Telephone Number
+                  </FormLabel>
                   <Controller
                     id="telephoneNumber"
                     name="telephoneNumber"
@@ -219,7 +266,7 @@ export default function QuoteForm() {
                       pattern: {
                         value: /^[0-9]/i,
                         message: "Telephone Number must be numeric digits",
-                      }
+                      },
                     }}
                     control={control}
                     defaultValue=""
@@ -240,7 +287,9 @@ export default function QuoteForm() {
               </GridItem>
               <GridItem colSpan={6}>
                 <FormControl isInvalid={errors.addressLine1}>
-                  <FormLabel htmlFor="addressLine1">Address Line 1 (Street)</FormLabel>
+                  <FormLabel htmlFor="addressLine1">
+                    Address Line 1 (Street)
+                  </FormLabel>
                   <Controller
                     id="addressLine1"
                     name="addressLine1"
@@ -265,7 +314,9 @@ export default function QuoteForm() {
               </GridItem>
               <GridItem colSpan={6}>
                 <FormControl isInvalid={errors.addressLine2}>
-                  <FormLabel htmlFor="addressLine2">Address Line 2 (Road)</FormLabel>
+                  <FormLabel htmlFor="addressLine2">
+                    Address Line 2 (Road)
+                  </FormLabel>
                   <Controller
                     id="addressLine2"
                     name="addressLine2"
@@ -335,15 +386,18 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.vehicleType}>
+                <FormControl className="light-theme" isInvalid={errors.vehicleType}>
                   <FormLabel htmlFor="vehicleType">Vehicle Type</FormLabel>
                   <Controller
+                    className="select"
                     id="vehicleType"
                     name="vehicleType"
                     control={control}
                     defaultValue=""
                     rules={{ required: "Vehicle Type is a required field" }}
-                    render={({ field: { name, value, onChange, onBlur, ref } }) => (
+                    render={({
+                      field: { name, value, onChange, onBlur, ref },
+                    }) => (
                       <Select
                         name={name}
                         placeholder="Select..."
@@ -363,15 +417,18 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.engineSize}>
+                <FormControl className="light-theme" isInvalid={errors.engineSize}>
                   <FormLabel htmlFor="engineSize">Engine Size</FormLabel>
                   <Controller
+                    className = "select"
                     id="engineSize"
                     name="engineSize"
                     control={control}
                     defaultValue=""
                     rules={{ required: "Engine Size is a required field" }}
-                    render={({ field: { name, value, onChange, onBlur, ref } }) => (
+                    render={({
+                      field: { name, value, onChange, onBlur, ref },
+                    }) => (
                       <Select
                         name={name}
                         placeholder="Select..."
@@ -390,13 +447,14 @@ export default function QuoteForm() {
               </GridItem>
               <GridItem colSpan={6}>
                 <FormControl isInvalid={errors.additionalDrivers}>
-                  <FormLabel htmlFor="additionalDrivers">Additional Drivers</FormLabel>
+                  <FormLabel htmlFor="additionalDrivers">
+                    Additional Drivers
+                  </FormLabel>
                   <Controller
                     id="additionalDrivers"
                     name="additionalDrivers"
                     rules={{ required: "This is a required field" }}
                     control={control}
-                    defaultValue=""
                     render={({ field: { onChange, onBlur } }) => (
                       <NumberInput
                         defaultValue={1}
@@ -414,7 +472,8 @@ export default function QuoteForm() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errors.additionalDrivers && errors.additionalDrivers.message}
+                    {errors.additionalDrivers &&
+                      errors.additionalDrivers.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
@@ -446,7 +505,8 @@ export default function QuoteForm() {
                     No
                   </label>
                   <FormErrorMessage>
-                    {errors.commercialPurposes && errors.commercialPurposes.message}
+                    {errors.commercialPurposes &&
+                      errors.commercialPurposes.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
@@ -478,22 +538,26 @@ export default function QuoteForm() {
                     No
                   </label>
                   <FormErrorMessage>
-                    {errors.outOfRegisteredState && errors.outOfRegisteredState.message}
+                    {errors.outOfRegisteredState &&
+                      errors.outOfRegisteredState.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.currentValue}>
+                <FormControl className="light-theme" isInvalid={errors.currentValue}>
                   <FormLabel htmlFor="currentValue">
                     What is the current value of the vehicle (range 0 - 50000)?
                   </FormLabel>
                   <Controller
+                    className="select"
                     id="currentValue"
                     name="currentValue"
                     control={control}
                     defaultValue={""}
                     rules={{ required: "This is a required field" }}
-                    render={({ field: { name, value, onChange, onBlur, ref } }) => (
+                    render={({
+                      field: { name, value, onChange, onBlur, ref },
+                    }) => (
                       <Select
                         name={name}
                         placeholder="Select..."
@@ -504,6 +568,7 @@ export default function QuoteForm() {
                         onChange={(val) => onChange(val.value)}
                         onBlur={(val) => onBlur(val)}
                         inputRef={ref}
+                        
                       />
                     )}
                   />
@@ -513,15 +578,18 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isInvalid={errors.registrationDate}>
-                  <FormLabel htmlFor="registrationDate">Date vehicle was first registered?</FormLabel>
+                <FormControl className="light-theme" isInvalid={errors.registrationDate}>
+                  <FormLabel htmlFor="registrationDate">
+                    Date vehicle was first registered?
+                  </FormLabel>
                   <Controller
+                    className="react-datapicker__input-text"
                     id="registrationDate"
                     name="registrationDate"
                     control={control}
                     rules={{ required: "This is a required field" }}
                     defaultValue={new Date()}
-                    render={({ field: {onChange, onBlur, value }}) => (
+                    render={({ field: { onChange, onBlur, value } }) => (
                       <DatePicker
                         selected={value}
                         onChange={onChange}

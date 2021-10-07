@@ -47,6 +47,15 @@ const theme = extendTheme({
                     }
                 }
             }
+        },
+        NumberInput:{
+            variants:{
+                outline:{
+                    field:{
+                        bg: "#fff"
+                    }
+                }
+            }
         }
     }
 },
