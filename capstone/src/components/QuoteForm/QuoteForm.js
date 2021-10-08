@@ -21,11 +21,10 @@ import {
   NumberDecrementStepper,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import {Select} from "chakra-react-select";
+import { Select } from "chakra-react-select";
 import axios from "axios";
 
 export default function QuoteForm() {
-
   const {
     register,
     handleSubmit,
@@ -33,7 +32,7 @@ export default function QuoteForm() {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onBlur"
+    mode: "onBlur",
   });
 
   const colSpan1 = useBreakpointValue({ base: 6, md: 2 });
@@ -133,7 +132,8 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onBlur, onChange, ref },
                     }) => (
-                      <Select isInvalid={errors.prefix}
+                      <Select
+                        isInvalid={errors.prefix}
                         name={name}
                         defaultValue=""
                         placeholder="Select..."
@@ -370,7 +370,8 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
-                      <Select isInvalid={errors.vehicleType}
+                      <Select
+                        isInvalid={errors.vehicleType}
                         name={name}
                         placeholder="Select..."
                         options={vehicleTypeOptions}
@@ -401,7 +402,8 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
-                      <Select isInvalid={errors.engineSize}
+                      <Select
+                        isInvalid={errors.engineSize}
                         name={name}
                         placeholder="Select..."
                         options={engineSizeOptions}
@@ -454,8 +456,11 @@ export default function QuoteForm() {
                   <FormLabel htmlFor="commercialPurposes">
                     Will the vehicle be used for commercial purposes?
                   </FormLabel>
-                  <div >
-                    <label className="radio-label" htmlFor="commercialPurposes-yes">
+                  <div>
+                    <label
+                      className="radio-label"
+                      htmlFor="commercialPurposes-yes"
+                    >
                       <input
                         {...register("commercialPurposes", {
                           required: "This is a required field",
@@ -467,7 +472,10 @@ export default function QuoteForm() {
                       <span className="checkmark"></span>
                       Yes
                     </label>
-                    <label className="radio-label" htmlFor="commercialPurposes-no">
+                    <label
+                      className="radio-label"
+                      htmlFor="commercialPurposes-no"
+                    >
                       <input
                         {...register("commercialPurposes", {
                           required: "This is a required field",
@@ -492,30 +500,36 @@ export default function QuoteForm() {
                     Will the vehicle be used outside the registered state?
                   </FormLabel>
 
-                    <label className="radio-label" htmlFor="outOfRegisteredState-yes">
-                      <input
-                        {...register("outOfRegisteredState", {
-                          required: "This is a required field",
-                        })}
-                        type="radio"
-                        value="Yes"
-                        id="outOfRegisteredState-yes"
-                      />
-                      <span className="checkmark"></span>
-                      Yes
-                    </label>
-                    <label className="radio-label" htmlFor="outOfRegisteredState-no">
-                      <input
-                        {...register("outOfRegisteredState", {
-                          required: "This is a required field",
-                        })}
-                        type="radio"
-                        value="No"
-                        id="outOfRegisteredState-no"
-                      />
-                      <span className="checkmark"></span>
-                      No
-                    </label>
+                  <label
+                    className="radio-label"
+                    htmlFor="outOfRegisteredState-yes"
+                  >
+                    <input
+                      {...register("outOfRegisteredState", {
+                        required: "This is a required field",
+                      })}
+                      type="radio"
+                      value="Yes"
+                      id="outOfRegisteredState-yes"
+                    />
+                    <span className="checkmark"></span>
+                    Yes
+                  </label>
+                  <label
+                    className="radio-label"
+                    htmlFor="outOfRegisteredState-no"
+                  >
+                    <input
+                      {...register("outOfRegisteredState", {
+                        required: "This is a required field",
+                      })}
+                      type="radio"
+                      value="No"
+                      id="outOfRegisteredState-no"
+                    />
+                    <span className="checkmark"></span>
+                    No
+                  </label>
 
                   <FormErrorMessage>
                     {errors.outOfRegisteredState &&
@@ -538,7 +552,8 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
-                      <Select isInvalid={errors.currentValue}
+                      <Select
+                        isInvalid={errors.currentValue}
                         name={name}
                         placeholder="Select..."
                         options={currentValueOptions}

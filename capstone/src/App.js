@@ -7,8 +7,6 @@ import Admin from "./components/Admin/Admin";
 import DriverDetails from "./components/DriverDetails/DriverDetails";
 import { BrowserRouter, Route } from 'react-router-dom';
 
-
-
 function App() {
   return (
     <ChakraProvider theme={theme}>
