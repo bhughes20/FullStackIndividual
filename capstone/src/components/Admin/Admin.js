@@ -35,6 +35,7 @@ export default function Admin() {
     handleSubmit: handleSubmitDeleteRecord,
     control: controlDeleteRecord,
     formState: { errors: errorsDeleteRecord },
+    reset: resetDeleteRecord,
   } = useForm({
     mode: "onBlur",
   });
@@ -61,6 +62,7 @@ export default function Admin() {
     const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
     axios.delete(url)
     .then((response) => console.log(response))
+    .then(resetDeleteRecord())
     .catch(
       (error) => { console.log(error) }
     );
@@ -68,7 +70,6 @@ export default function Admin() {
 
   const handleRegistrationUpdateDriverTel = (data) => {
     const id = data.updateDriverId;
-    const telephoneNumber = data.updateDriverTel;
 
     const formData = {
       telephoneNumber : data.updateDriverTel
@@ -102,13 +103,13 @@ export default function Admin() {
   return (
     <Container maxWidth="container.xl" padding={0} centerContent>
       <Flex
-        bgColor="grey.400"
+        bgColor="grey.500"
         h={{ base: "auto", md: "full" }}
         py={[0, 10]}
         direction={{ base: "column-reverse", md: "row" }}
       >
-        <VStack w="full" h="full" px={10} spacing={10} alignItems="flex-start">
-          <VStack spacing={3} alignItems="flex-start">
+        <VStack w="full" h="full" px={10} spacing={10} alignItems="center">
+          <VStack spacing={3} alignItems="center">
             <Heading size="2xl">Admin</Heading>
           </VStack>
 
@@ -117,12 +118,11 @@ export default function Admin() {
           >
             <SimpleGrid
               padding={[0, 10]}
-              bgColor="grey.200"
+              bgColor="grey.300"
               columns={3}
               columnGap={3}
               rowGap={6}
               w="full"
-              verticalAlign="bottom"
             >
               <GridItem colSpan={3}>
                 <Heading as="h2" size="lg">
@@ -174,7 +174,7 @@ export default function Admin() {
           >
             <SimpleGrid
               padding={[0, 10]}
-              bgColor="grey.200"
+              bgColor="grey.300"
               columns={3}
               columnGap={3}
               rowGap={6}
@@ -228,7 +228,7 @@ export default function Admin() {
           <form onSubmit={handleSubmitUpdateDriverTel(handleRegistrationUpdateDriverTel, handleErrorUpdateDriverTel)}>
             <SimpleGrid
               padding={[0, 10]}
-              bgColor="grey.200"
+              bgColor="grey.300"
               columns={3}
               columnGap={3}
               rowGap={6}

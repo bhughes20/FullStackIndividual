@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import Select from "react-select";
 import DatePicker from "react-datepicker";
 import {
   Container,
@@ -22,27 +21,10 @@ import {
   NumberDecrementStepper,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import {Select} from "chakra-react-select";
 import axios from "axios";
 
 export default function QuoteForm() {
-  const defaultValues = {
-    additionalDrivers: 1,
-    addressLine1: "",
-    addressLine2: "",
-    city: "",
-    commercialPurposes: "",
-    currentValue: "",
-    engineSize: "",
-    firstName: "",
-    id: "",
-    lastName: "",
-    outOfRegisteredState: "",
-    postcodeOrZip: "",
-    prefix: { value: "", label: "" },
-    registrationDate: new Date(),
-    telephoneNumber: "",
-    vehicleType: "",
-  };
 
   const {
     register,
@@ -51,8 +33,7 @@ export default function QuoteForm() {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onBlur",
-    defaultValues: defaultValues,
+    mode: "onBlur"
   });
 
   const colSpan1 = useBreakpointValue({ base: 6, md: 2 });
@@ -84,12 +65,12 @@ export default function QuoteForm() {
   ];
 
   const currentValueOptions = [
-    { value: "0 to 5000", label: "0 to 5000" },
-    { value: "5001 to 10000", label: "5001 to 10000" },
-    { value: "10001 to 20000", label: "10001 to 20000" },
-    { value: "20001 to 30000", label: "20001 to 30000" },
-    { value: "30001 to 40000", label: "30001 to 40000" },
-    { value: "40001 to 50000", label: "40001 to 50000" },
+    { value: "£0 to £5,000", label: "£0 to £5,000" },
+    { value: "£5,001 to £10,000", label: "£5,001 to £10,000" },
+    { value: "£10,001 to £20,000", label: "£10,001 to £20,000" },
+    { value: "£20,001 to £30,000", label: "£20,001 to £30,000" },
+    { value: "£30,001 to £40,000", label: "£30,001 to £40,000" },
+    { value: "£40,001 to £50,000", label: "40,001 to £50,000" },
   ];
 
   const handleRegistration = (data) => {
@@ -99,21 +80,15 @@ export default function QuoteForm() {
     axios
       .post(endpoint, data)
       .then((response) => console.log(response.data))
-      .then(reset(defaultValues))
+      .then(reset())
       .catch(function (error) {
         if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
           console.log(error.request);
         } else {
-          // Something happened in setting up the request that triggered an Error
           console.log("Error", error.message);
         }
         console.log(error.config);
@@ -127,21 +102,21 @@ export default function QuoteForm() {
   return (
     <Container maxWidth="container.xl" padding={0}>
       <Flex
-        bgColor="grey.400"
+        bgColor="grey.500"
         h={{ base: "auto", md: "full" }}
         py={[0, 10]}
         direction={{ base: "column-reverse", md: "row" }}
       >
-        <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
-          <VStack spacing={3} alignItems="flex-start">
+        <VStack w="full" h="full" p={10} spacing={10} alignItems="center">
+          <VStack spacing={3} alignItems="center">
             <Heading size="2xl">Get Quote</Heading>
             <Text>Please enter your driver details below to get a quote.</Text>
           </VStack>
 
           <form onSubmit={handleSubmit(handleRegistration, handleError)}>
             <SimpleGrid
-              padding={[0, 10, 20]}
-              bgColor="grey.200"
+              padding={[0, 10]}
+              bgColor="grey.300"
               columns={6}
               columnGap={3}
               rowGap={6}
@@ -158,8 +133,9 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onBlur, onChange, ref },
                     }) => (
-                      <Select
+                      <Select isInvalid={errors.prefix}
                         name={name}
+                        defaultValue=""
                         placeholder="Select..."
                         options={prefixOptions}
                         value={prefixOptions.find((c) => c.value === value)}
@@ -394,7 +370,7 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
-                      <Select
+                      <Select isInvalid={errors.vehicleType}
                         name={name}
                         placeholder="Select..."
                         options={vehicleTypeOptions}
@@ -425,7 +401,7 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
-                      <Select
+                      <Select isInvalid={errors.engineSize}
                         name={name}
                         placeholder="Select..."
                         options={engineSizeOptions}
@@ -515,7 +491,7 @@ export default function QuoteForm() {
                   <FormLabel htmlFor="outOfRegisteredState">
                     Will the vehicle be used outside the registered state?
                   </FormLabel>
-                  <div>
+
                     <label className="radio-label" htmlFor="outOfRegisteredState-yes">
                       <input
                         {...register("outOfRegisteredState", {
@@ -540,7 +516,7 @@ export default function QuoteForm() {
                       <span className="checkmark"></span>
                       No
                     </label>
-                  </div>
+
                   <FormErrorMessage>
                     {errors.outOfRegisteredState &&
                       errors.outOfRegisteredState.message}
@@ -562,7 +538,7 @@ export default function QuoteForm() {
                     render={({
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
-                      <Select
+                      <Select isInvalid={errors.currentValue}
                         name={name}
                         placeholder="Select..."
                         options={currentValueOptions}
