@@ -29,7 +29,7 @@ export default function QuoteForm() {
     register,
     handleSubmit,
     control,
-    reset,
+   // reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
@@ -69,7 +69,7 @@ export default function QuoteForm() {
     { value: "£10,001 to £20,000", label: "£10,001 to £20,000" },
     { value: "£20,001 to £30,000", label: "£20,001 to £30,000" },
     { value: "£30,001 to £40,000", label: "£30,001 to £40,000" },
-    { value: "£40,001 to £50,000", label: "40,001 to £50,000" },
+    { value: "£40,001 to £50,000", label: "£40,001 to £50,000" },
   ];
 
   const handleRegistration = (data) => {
@@ -79,7 +79,7 @@ export default function QuoteForm() {
     axios
       .post(endpoint, data)
       .then((response) => console.log(response.data))
-      .then(reset())
+      //.then(reset())
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -101,7 +101,7 @@ export default function QuoteForm() {
   return (
     <Container maxWidth="container.xl" padding={0}>
       <Flex
-        bgColor="grey.500"
+        bgColor="grey.400"
         h={{ base: "auto", md: "full" }}
         py={[0, 10]}
         direction={{ base: "column-reverse", md: "row" }}
@@ -115,7 +115,7 @@ export default function QuoteForm() {
           <form onSubmit={handleSubmit(handleRegistration, handleError)}>
             <SimpleGrid
               padding={[0, 10]}
-              bgColor="grey.300"
+              bgColor="grey.200"
               columns={6}
               columnGap={3}
               rowGap={6}
@@ -127,6 +127,7 @@ export default function QuoteForm() {
                   <Controller
                     id="prefix"
                     name="prefix"
+                    defaultValue={""}
                     control={control}
                     rules={{ required: "Prefix is a required field" }}
                     render={({
@@ -135,7 +136,6 @@ export default function QuoteForm() {
                       <Select
                         isInvalid={errors.prefix}
                         name={name}
-                        defaultValue=""
                         placeholder="Select..."
                         options={prefixOptions}
                         value={prefixOptions.find((c) => c.value === value)}
@@ -227,6 +227,10 @@ export default function QuoteForm() {
                     name="telephoneNumber"
                     rules={{
                       required: "Telephone Number is a required field",
+                      pattern: {
+                        value: /^[0-9]/i,
+                        message: "Telephone Number must be numeric digits",
+                      },
                       maxLength: {
                         value: 11,
                         message: "Telephone Number must be 11 digits",
@@ -234,10 +238,6 @@ export default function QuoteForm() {
                       minLength: {
                         value: 11,
                         message: "Telephone Number must be 11 digits",
-                      },
-                      pattern: {
-                        value: /^[0-9]/i,
-                        message: "Telephone Number must be numeric digits",
                       },
                     }}
                     control={control}
