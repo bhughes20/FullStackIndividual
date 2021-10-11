@@ -35,7 +35,6 @@ export default function Admin() {
     handleSubmit: handleSubmitDeleteRecord,
     control: controlDeleteRecord,
     formState: { errors: errorsDeleteRecord },
-    reset: resetDeleteRecord,
   } = useForm({
     mode: "onBlur",
   });
@@ -62,7 +61,6 @@ export default function Admin() {
     const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
     axios.delete(url)
     .then((response) => console.log(response))
-    .then(resetDeleteRecord())
     .catch(
       (error) => { console.log(error) }
     );
