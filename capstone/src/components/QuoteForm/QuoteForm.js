@@ -429,6 +429,7 @@ export default function QuoteForm() {
                     name="additionalDrivers"
                     rules={{ required: "This is a required field" }}
                     control={control}
+                    defaultValue={1}
                     render={({ field: { onChange, onBlur } }) => (
                       <NumberInput
                         defaultValue={1}
