@@ -73,11 +73,11 @@ export default function QuoteForm() {
   ];
 
   const handleRegistration = (data) => {
-    const endpoint =
-      "https://615c67bcc298130017736174.mockapi.io/api/1/drivers";
-
+    //const endpoint =
+    //  "https://615c67bcc298130017736174.mockapi.io/api/1/drivers";
+      const url = "http://localhost:8080/drivers";
     axios
-      .post(endpoint, data)
+      .post(url, data)
       .then((response) => console.log(response.data))
       //.then(reset())
       .catch(function (error) {

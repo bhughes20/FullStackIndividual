@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useHistory } from "react-router";
 import axios from "axios";
@@ -22,6 +22,7 @@ export default function Admin() {
   const colSpan1 = useBreakpointValue({ base: 2, md: 1 });
   const colSpan2 = useBreakpointValue({ base: 3, md: 1 });
   let history = useHistory();
+  const [requestBodyData, setRequestBodyData] = useState(null);
 
   const {
     handleSubmit: handleSubmitGetDetails,
@@ -58,7 +59,8 @@ export default function Admin() {
     const id = data.deleteDriverId;
     console.log(data);
 
-    const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
+    //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
+    const url = `http://localhost:8080/drivers/${id}`;
     axios.delete(url)
     .then((response) => console.log(response))
     .catch(
@@ -68,15 +70,26 @@ export default function Admin() {
 
   const handleRegistrationUpdateDriverTel = (data) => {
     const id = data.updateDriverId;
-
-    const formData = {
-      telephoneNumber : data.updateDriverTel
-    }
     console.log(data);
+
+    const url = `http://localhost:8080/drivers/${id}`;
+    axios
+      .get(url)
+      .then((response) => setRequestBodyData(response.data))
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    
+    requestBodyData.telephoneNumber = data.telephoneNumber;
+
     const redirectEndpoint = `/driver-details/${id}`;
 
-    const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
-    axios.put(url, formData)
+    //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
+    //const url = `http://localhost:8080/drivers/${id}`;
+    axios.put(url, requestBodyData)
       .then((response) => {
         console.log(response)
         history.push(redirectEndpoint);
@@ -268,13 +281,13 @@ export default function Admin() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errorsUpdateDriverTel.updateDriverTel}>
-                  <FormLabel htmlFor="updateDriverTel">
+                <FormControl isRequired isInvalid={errorsUpdateDriverTel.telephoneNumber}>
+                  <FormLabel htmlFor="telephoneNumber">
                     New Telephone Number
                   </FormLabel>
                   <Controller
-                    id="updateDriverTel"
-                    name="updateDriverTel"
+                    id="telephoneNumber"
+                    name="telephoneNumber"
                     rules={{
                       required: "Telephone Number is a required field",
                       maxLength: {
@@ -303,7 +316,7 @@ export default function Admin() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errorsUpdateDriverTel.updateDriverTel && errorsUpdateDriverTel.updateDriverTel.message}
+                    {errorsUpdateDriverTel.telephoneNumber && errorsUpdateDriverTel.telephoneNumber.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
