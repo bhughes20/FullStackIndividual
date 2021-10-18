@@ -138,7 +138,12 @@ export default function DriverDetails() {
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Current Value</Text>
-              <Text>{data.currentValue}</Text>
+              <Text>
+                {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(data.currentValue)}
+              </Text>
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Date Registered</Text>
