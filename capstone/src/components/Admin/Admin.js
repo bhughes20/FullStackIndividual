@@ -98,34 +98,33 @@ export default function Admin() {
       return updateData;
     };
 
+    function updateDriverData(updateData) {
+      axios
+        .put(url, updateData)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .then(history.push(redirectEndpoint))
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
     function getDriverData(populateUpdateData) {
       axios
         .get(url)
         .then(function (response) {
           const updateData = populateUpdateData(response.data);
           console.log(updateData);
+          updateDriverData(updateData);
         })
         .catch(function (error) {
           console.log(error);
         });
     }
 
-    function updateDriverData(updateData ) {
-      axios
-        .put(url, updateData)
-        .then((response) => {
-          console.log(response);
-        })
-        // .then(history.push(redirectEndpoint))
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    getDriverData(populateUpdateData);
 
-    const updateData = getDriverData(populateUpdateData);
-    updateDriverData(updateData);
-
-    //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
   };
 
   const handleErrorGetDetails = (errors) => {
