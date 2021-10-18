@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 export default function QuoteForm() {
   const {
@@ -38,6 +39,7 @@ export default function QuoteForm() {
 
   const colSpan1 = useBreakpointValue({ base: 6, md: 2 });
   const colSpan2 = useBreakpointValue({ base: 6, md: 3 });
+  let history = useHistory();
 
   const prefixOptions = [
     { value: "Dr", label: "Dr" },
@@ -67,7 +69,6 @@ export default function QuoteForm() {
   const handleRegistration = (data) => {
     console.log(data);
     const url = "http://localhost:8080/drivers";
-
     axios
       .post(url, data)
       .then((response) => console.log(response.data))
@@ -80,6 +81,7 @@ export default function QuoteForm() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
+          onClose: () => history.push('/admin'),
         })
       )
       //.then(reset())
