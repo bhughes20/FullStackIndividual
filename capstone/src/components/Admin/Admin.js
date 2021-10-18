@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useHistory } from "react-router";
 import axios from "axios";
@@ -22,7 +22,6 @@ export default function Admin() {
   const colSpan1 = useBreakpointValue({ base: 2, md: 1 });
   const colSpan2 = useBreakpointValue({ base: 3, md: 1 });
   let history = useHistory();
-  const [requestBodyData, setRequestBodyData] = useState(null);
 
   const {
     handleSubmit: handleSubmitGetDetails,
@@ -61,43 +60,73 @@ export default function Admin() {
 
     //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
     const url = `http://localhost:8080/drivers/${id}`;
-    axios.delete(url)
-    .then((response) => console.log(response))
-    .catch(
-      (error) => { console.log(error) }
-    );
+    axios
+      .delete(url)
+      .then((response) => console.log(response))
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleRegistrationUpdateDriverTel = (data) => {
     const id = data.updateDriverId;
+    const telephoneNumber = data.telephoneNumber;
     console.log(data);
 
     const url = `http://localhost:8080/drivers/${id}`;
-    axios
-      .get(url)
-      .then((response) => setRequestBodyData(response.data))
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    
-    requestBodyData.telephoneNumber = data.telephoneNumber;
-
     const redirectEndpoint = `/driver-details/${id}`;
 
+    const populateUpdateData = (data) => {
+      const updateData = {
+        prefix: data.prefix,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        telephoneNumber: telephoneNumber,
+        addressLine1: data.addressLine1,
+        addressLine2: data.addressLine2,
+        city: data.city,
+        postcodeOrZip: data.postcodeOrZip,
+        vehicleType: data.vehicleType,
+        engineSize: data.engineSize,
+        additionalDrivers: data.additionalDrivers,
+        commercialPurposes: data.commercialPurposes,
+        outOfRegisteredState: data.outOfRegisteredState,
+        currentValue: data.currentValue,
+        registrationDate: data.registrationDate,
+      };
+
+      return updateData;
+    };
+
+    function getDriverData(populateUpdateData) {
+      axios
+        .get(url)
+        .then(function (response) {
+          const updateData = populateUpdateData(response.data);
+          console.log(updateData);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function updateDriverData(updateData ) {
+      axios
+        .put(url, updateData)
+        .then((response) => {
+          console.log(response);
+        })
+        // .then(history.push(redirectEndpoint))
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    const updateData = getDriverData(populateUpdateData);
+    updateDriverData(updateData);
+
     //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
-    //const url = `http://localhost:8080/drivers/${id}`;
-    axios.put(url, requestBodyData)
-      .then((response) => {
-        console.log(response)
-        history.push(redirectEndpoint);
-      })
-      .catch(
-        (error) => { console.log(error) }
-      );
-  }
+  };
 
   const handleErrorGetDetails = (errors) => {
     console.log(errors);
@@ -125,7 +154,10 @@ export default function Admin() {
           </VStack>
 
           <form
-            onSubmit={handleSubmitGetDetails(handleRegistrationGetDetails, handleErrorGetDetails)}
+            onSubmit={handleSubmitGetDetails(
+              handleRegistrationGetDetails,
+              handleErrorGetDetails
+            )}
           >
             <SimpleGrid
               padding={[0, 10]}
@@ -141,7 +173,10 @@ export default function Admin() {
                 </Heading>
               </GridItem>
               <GridItem colSpan={colSpan1}>
-                <FormControl isRequired isInvalid={errorsGetDetails.getDetailsId}>
+                <FormControl
+                  isRequired
+                  isInvalid={errorsGetDetails.getDetailsId}
+                >
                   <FormLabel htmlFor="getDetailsId">Driver ID</FormLabel>
                   <Controller
                     id="getDetailsId"
@@ -157,7 +192,6 @@ export default function Admin() {
                     }}
                     render={({ field: { value, onChange, onBlur } }) => (
                       <Input
-
                         value={value}
                         onChange={onChange}
                         onBlur={onBlur}
@@ -166,7 +200,8 @@ export default function Admin() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errorsGetDetails.getDetailsId && errorsGetDetails.getDetailsId.message}
+                    {errorsGetDetails.getDetailsId &&
+                      errorsGetDetails.getDetailsId.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
@@ -181,7 +216,10 @@ export default function Admin() {
           <Divider />
 
           <form
-            onSubmit={handleSubmitDeleteRecord(handleRegistrationDeleteRecord, handleErrorDeleteRecord)}
+            onSubmit={handleSubmitDeleteRecord(
+              handleRegistrationDeleteRecord,
+              handleErrorDeleteRecord
+            )}
           >
             <SimpleGrid
               padding={[0, 10]}
@@ -198,7 +236,10 @@ export default function Admin() {
                 </Heading>
               </GridItem>
               <GridItem colSpan={colSpan1}>
-                <FormControl isRequired isInvalid={errorsDeleteRecord.deleteDriverId}>
+                <FormControl
+                  isRequired
+                  isInvalid={errorsDeleteRecord.deleteDriverId}
+                >
                   <FormLabel htmlFor="deleteDriverId">Driver ID</FormLabel>
                   <Controller
                     id="deleteDriverId"
@@ -222,7 +263,8 @@ export default function Admin() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errorsDeleteRecord.deleteDriverId && errorsDeleteRecord.deleteDriverId.message}
+                    {errorsDeleteRecord.deleteDriverId &&
+                      errorsDeleteRecord.deleteDriverId.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
@@ -236,7 +278,12 @@ export default function Admin() {
 
           <Divider />
 
-          <form onSubmit={handleSubmitUpdateDriverTel(handleRegistrationUpdateDriverTel, handleErrorUpdateDriverTel)}>
+          <form
+            onSubmit={handleSubmitUpdateDriverTel(
+              handleRegistrationUpdateDriverTel,
+              handleErrorUpdateDriverTel
+            )}
+          >
             <SimpleGrid
               padding={[0, 10]}
               bgColor="grey.300"
@@ -252,7 +299,10 @@ export default function Admin() {
                 </Heading>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errorsUpdateDriverTel.updateDriverId}>
+                <FormControl
+                  isRequired
+                  isInvalid={errorsUpdateDriverTel.updateDriverId}
+                >
                   <FormLabel htmlFor="updateDriverId">Driver ID</FormLabel>
                   <Controller
                     id="updateDriverId"
@@ -276,12 +326,16 @@ export default function Admin() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errorsUpdateDriverTel.updateDriverId && errorsUpdateDriverTel.updateDriverId.message}
+                    {errorsUpdateDriverTel.updateDriverId &&
+                      errorsUpdateDriverTel.updateDriverId.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errorsUpdateDriverTel.telephoneNumber}>
+                <FormControl
+                  isRequired
+                  isInvalid={errorsUpdateDriverTel.telephoneNumber}
+                >
                   <FormLabel htmlFor="telephoneNumber">
                     New Telephone Number
                   </FormLabel>
@@ -301,7 +355,7 @@ export default function Admin() {
                       pattern: {
                         value: /^[0-9]/i,
                         message: "Telephone Number must be numeric digits",
-                      }
+                      },
                     }}
                     control={controlUpdateDriverTel}
                     defaultValue=""
@@ -316,7 +370,8 @@ export default function Admin() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errorsUpdateDriverTel.telephoneNumber && errorsUpdateDriverTel.telephoneNumber.message}
+                    {errorsUpdateDriverTel.telephoneNumber &&
+                      errorsUpdateDriverTel.telephoneNumber.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
