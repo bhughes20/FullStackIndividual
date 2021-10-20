@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
+import axios from "axios";
 import {
   Heading,
   FormControl,
@@ -40,7 +42,7 @@ export default function GetRecord() {
         console.log(response)
         if (response.status >= 200 && response.status < 300){
           history.push(redirectEndpoint);
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
           toast.error(`Driver ID ${id} does not exist.`)
         }
       })

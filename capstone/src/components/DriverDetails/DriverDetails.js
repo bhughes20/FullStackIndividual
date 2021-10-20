@@ -16,14 +16,10 @@ export default function DriverDetails() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
     const url = `http://localhost:8080/drivers/${id}`;
     axios
       .get(url)
       .then((response) => setData(response.data))
-      .then((response) => {
-        console.log(response);
-      })
       .catch((err) => {
         console.log(err);
       });

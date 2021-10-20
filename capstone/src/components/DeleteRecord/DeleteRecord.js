@@ -43,7 +43,7 @@ export default function DeleteRecord() {
       .then((response) => {
         console.log(response)
         if (response.status >= 200 && response.status < 300){
-          toast.success(`Driver ${id} has been deleted.`)
+          toast.success(`Driver ID ${id} has been deleted.`)
         }
       })
       .catch((error) => {
