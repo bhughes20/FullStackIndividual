@@ -1,7 +1,6 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useHistory } from "react-router";
-import axios from "axios";
 import {
   Container,
   Flex,
@@ -18,12 +17,11 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import DeleteRecord from "../DeleteRecord/DeleteRecord";
+import UpdateRecord from "../UpdateRecord/UpdateRecord";
 
 export default function Admin() {
 
-
   const colSpan1 = useBreakpointValue({ base: 2, md: 1 });
-  const colSpan2 = useBreakpointValue({ base: 3, md: 1 });
   let history = useHistory();
 
   const {
@@ -36,13 +34,7 @@ export default function Admin() {
 
   
 
-  const {
-    handleSubmit: handleSubmitUpdateDriverTel,
-    control: controlUpdateDriverTel,
-    formState: { errors: errorsUpdateDriverTel },
-  } = useForm({
-    mode: "onBlur",
-  });
+
 
   const handleRegistrationGetDetails = (data) => {
     const id = data.getDetailsId;
@@ -52,71 +44,13 @@ export default function Admin() {
   };
 
  
-  const handleRegistrationUpdateDriverTel = (data) => {
-    const id = data.updateDriverId;
-    const telephoneNumber = data.telephoneNumber;
-    console.log(data);
-
-    const url = `http://localhost:8080/drivers/${id}`;
-    const redirectEndpoint = `/driver-details/${id}`;
-
-    const populateUpdateData = (data) => {
-      const updateData = {
-        prefix: data.prefix,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        telephoneNumber: telephoneNumber,
-        addressLine1: data.addressLine1,
-        addressLine2: data.addressLine2,
-        city: data.city,
-        postcodeOrZip: data.postcodeOrZip,
-        vehicleType: data.vehicleType,
-        engineSize: data.engineSize,
-        additionalDrivers: data.additionalDrivers,
-        commercialPurposes: data.commercialPurposes,
-        outOfRegisteredState: data.outOfRegisteredState,
-        currentValue: data.currentValue,
-        registrationDate: data.registrationDate,
-      };
-
-      return updateData;
-    };
-
-    function updateDriverData(updateData) {
-      axios
-        .put(url, updateData)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .then(history.push(redirectEndpoint))
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    function getDriverData(populateUpdateData) {
-      axios
-        .get(url)
-        .then(function (response) {
-          const updateData = populateUpdateData(response.data);
-          console.log(updateData);
-          updateDriverData(updateData);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-
-    getDriverData(populateUpdateData);
-  };
+  
 
   const handleErrorGetDetails = (errors) => {
     console.log(errors);
   };
 
-  const handleErrorUpdateDriverTel = (errors) => {
-    console.log(errors);
-  };
+
 
   return (
     <Container maxWidth="container.xl" padding={0} centerContent>
@@ -197,110 +131,8 @@ export default function Admin() {
 
           <Divider />
 
-          <form
-            onSubmit={handleSubmitUpdateDriverTel(
-              handleRegistrationUpdateDriverTel,
-              handleErrorUpdateDriverTel
-            )}
-          >
-            <SimpleGrid
-              padding={[0, 10]}
-              bgColor="grey.300"
-              columns={3}
-              columnGap={3}
-              rowGap={6}
-              w="full"
-              verticalAlign="bottom"
-            >
-              <GridItem colSpan={3}>
-                <Heading as="h2" size="lg">
-                  Update Driver Telephone Number
-                </Heading>
-              </GridItem>
-              <GridItem colSpan={colSpan2}>
-                <FormControl
-                  isRequired
-                  isInvalid={errorsUpdateDriverTel.updateDriverId}
-                >
-                  <FormLabel htmlFor="updateDriverId">Driver ID</FormLabel>
-                  <Controller
-                    id="updateDriverId"
-                    name="updateDriverId"
-                    control={controlUpdateDriverTel}
-                    defaultValue=""
-                    rules={{
-                      required: "Driver ID is a required field",
-                      pattern: {
-                        value: /^[0-9]/i,
-                        message: "ID must be numeric digits",
-                      },
-                    }}
-                    render={({ field: { value, onChange, onBlur } }) => (
-                      <Input
-                        value={value}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        placeholder="Please Enter Driver ID"
-                      />
-                    )}
-                  />
-                  <FormErrorMessage>
-                    {errorsUpdateDriverTel.updateDriverId &&
-                      errorsUpdateDriverTel.updateDriverId.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={colSpan2}>
-                <FormControl
-                  isRequired
-                  isInvalid={errorsUpdateDriverTel.telephoneNumber}
-                >
-                  <FormLabel htmlFor="telephoneNumber">
-                    New Telephone Number
-                  </FormLabel>
-                  <Controller
-                    id="telephoneNumber"
-                    name="telephoneNumber"
-                    rules={{
-                      required: "Telephone Number is a required field",
-                      maxLength: {
-                        value: 11,
-                        message: "Telephone Number must be 11 digits",
-                      },
-                      minLength: {
-                        value: 11,
-                        message: "Telephone Number must be 11 digits",
-                      },
-                      pattern: {
-                        value: /^[0-9]/i,
-                        message: "Telephone Number must be numeric digits",
-                      },
-                    }}
-                    control={controlUpdateDriverTel}
-                    defaultValue=""
-                    render={({ field: { value, onChange, onBlur } }) => (
-                      <Input
-                        type="tel"
-                        placeholder="Please Enter Tel..."
-                        value={value}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                      />
-                    )}
-                  />
-                  <FormErrorMessage>
-                    {errorsUpdateDriverTel.telephoneNumber &&
-                      errorsUpdateDriverTel.telephoneNumber.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={colSpan1}>
-                <Button type="submit" size="md">
-                  Update
-                </Button>
-              </GridItem>
-            </SimpleGrid>
-          </form>
+          <UpdateRecord />
+          
         </VStack>
       </Flex>
     </Container>

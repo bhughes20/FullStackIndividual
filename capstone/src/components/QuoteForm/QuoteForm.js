@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import {
@@ -71,20 +71,14 @@ export default function QuoteForm() {
     const url = "http://localhost:8080/drivers";
     axios
       .post(url, data)
-      .then((response) => console.log(response.data))
-      .then(
-        toast.success("Your quote has been submitted!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          onClose: () => history.push('/admin'),
-        })
-      )
-      //.then(reset())
+      .then((response) => {
+        console.log(response)
+        if (response.status >= 200 && response.status < 300){
+          toast.success("Thanks, your quote has been submitted!", {
+            onClose: () => history.push('/admin'),
+          })
+        }
+      })
       .catch(function (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -95,6 +89,7 @@ export default function QuoteForm() {
         } else {
           console.log("Error", error.message);
         }
+        toast.error("Oops, something went wrong!")
         console.log(error.config);
       });
   };
@@ -116,18 +111,6 @@ export default function QuoteForm() {
             <Heading size="2xl">Get Quote</Heading>
             <Text>Please enter your driver details below to get a quote.</Text>
           </VStack>
-
-          <ToastContainer
-            position="top-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
 
           <form onSubmit={handleSubmit(handleRegistration, handleError)}>
             <SimpleGrid
