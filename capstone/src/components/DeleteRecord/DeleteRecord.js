@@ -43,28 +43,12 @@ export default function DeleteRecord() {
       .then((response) => {
         console.log(response)
         if (response.status >= 200 && response.status < 300){
-          toast.success(`Driver ${id} has been deleted.`, {
-            position: "top-center",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
+          toast.success(`Driver ${id} has been deleted.`)
         }
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
-        toast.error("Oops, something went wrong!", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
+        toast.error("Oops, something went wrong!")
       });
   };
 
