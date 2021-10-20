@@ -32,10 +32,6 @@ export default function Admin() {
     mode: "onBlur",
   });
 
-  
-
-
-
   const handleRegistrationGetDetails = (data) => {
     const id = data.getDetailsId;
     console.log(data);
@@ -43,14 +39,9 @@ export default function Admin() {
     history.push(redirectEndpoint);
   };
 
- 
-  
-
   const handleErrorGetDetails = (errors) => {
     console.log(errors);
   };
-
-
 
   return (
     <Container maxWidth="container.xl" padding={0} centerContent>
