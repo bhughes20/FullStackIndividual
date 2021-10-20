@@ -17,8 +17,11 @@ import {
   GridItem,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import DeleteRecord from "../DeleteRecord/DeleteRecord";
 
 export default function Admin() {
+
+
   const colSpan1 = useBreakpointValue({ base: 2, md: 1 });
   const colSpan2 = useBreakpointValue({ base: 3, md: 1 });
   let history = useHistory();
@@ -31,13 +34,7 @@ export default function Admin() {
     mode: "onBlur",
   });
 
-  const {
-    handleSubmit: handleSubmitDeleteRecord,
-    control: controlDeleteRecord,
-    formState: { errors: errorsDeleteRecord },
-  } = useForm({
-    mode: "onBlur",
-  });
+  
 
   const {
     handleSubmit: handleSubmitUpdateDriverTel,
@@ -54,20 +51,7 @@ export default function Admin() {
     history.push(redirectEndpoint);
   };
 
-  const handleRegistrationDeleteRecord = (data) => {
-    const id = data.deleteDriverId;
-    console.log(data);
-
-    //const url = `https://615c67bcc298130017736174.mockapi.io/api/1/drivers/${id}`;
-    const url = `http://localhost:8080/drivers/${id}`;
-    axios
-      .delete(url)
-      .then((response) => console.log(response))
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
+ 
   const handleRegistrationUpdateDriverTel = (data) => {
     const id = data.updateDriverId;
     const telephoneNumber = data.telephoneNumber;
@@ -124,14 +108,9 @@ export default function Admin() {
     }
 
     getDriverData(populateUpdateData);
-
   };
 
   const handleErrorGetDetails = (errors) => {
-    console.log(errors);
-  };
-
-  const handleErrorDeleteRecord = (errors) => {
     console.log(errors);
   };
 
@@ -214,66 +193,7 @@ export default function Admin() {
 
           <Divider />
 
-          <form
-            onSubmit={handleSubmitDeleteRecord(
-              handleRegistrationDeleteRecord,
-              handleErrorDeleteRecord
-            )}
-          >
-            <SimpleGrid
-              padding={[0, 10]}
-              bgColor="grey.300"
-              columns={3}
-              columnGap={3}
-              rowGap={6}
-              w="full"
-              verticalAlign="bottom"
-            >
-              <GridItem colSpan={3}>
-                <Heading as="h2" size="lg">
-                  Delete Driver Record
-                </Heading>
-              </GridItem>
-              <GridItem colSpan={colSpan1}>
-                <FormControl
-                  isRequired
-                  isInvalid={errorsDeleteRecord.deleteDriverId}
-                >
-                  <FormLabel htmlFor="deleteDriverId">Driver ID</FormLabel>
-                  <Controller
-                    id="deleteDriverId"
-                    name="deleteDriverId"
-                    control={controlDeleteRecord}
-                    defaultValue=""
-                    rules={{
-                      required: "Driver ID is a required field",
-                      pattern: {
-                        value: /^[0-9]/i,
-                        message: "ID must be numeric digits",
-                      },
-                    }}
-                    render={({ field: { value, onChange, onBlur } }) => (
-                      <Input
-                        value={value}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        placeholder="Please Enter Driver ID"
-                      />
-                    )}
-                  />
-                  <FormErrorMessage>
-                    {errorsDeleteRecord.deleteDriverId &&
-                      errorsDeleteRecord.deleteDriverId.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={colSpan1}>
-                <Button type="submit" size="md">
-                  Delete
-                </Button>
-              </GridItem>
-            </SimpleGrid>
-          </form>
+          <DeleteRecord />
 
           <Divider />
 
