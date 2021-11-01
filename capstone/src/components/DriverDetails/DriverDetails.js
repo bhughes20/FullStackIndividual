@@ -95,7 +95,7 @@ export default function DriverDetails() {
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Postcode / Zip</Text>
-              <Text>{data.postcodeOrZip}</Text>
+              <Text>{data.postcode}</Text>
             </HStack>
             <Divider />
           </VStack>
@@ -112,7 +112,7 @@ export default function DriverDetails() {
             </Heading>
             <HStack justifyContent="space-between">
               <Text>Vehicle Type</Text>
-              <Text>{data.vehicleType}</Text>
+              <Text>{data.vehicleBodyType}</Text>
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Engine Size</Text>
@@ -124,20 +124,20 @@ export default function DriverDetails() {
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Will the vehicle be used for commercial purposes?</Text>
-              <Text>{data.commercialPurposes}</Text>
+              <Text>{data.commercialUse}</Text>
             </HStack>
             <HStack justifyContent="space-between">
               <Text>
                 Will the vehicle be used outside the registered state?
               </Text>
-              <Text>{data.outOfRegisteredState}</Text>
+              <Text>{data.outsideStateUse}</Text>
             </HStack>
             <HStack justifyContent="space-between">
               <Text>Current Value</Text>
               <Text>
-                {new Intl.NumberFormat("en-GB", {
+                {new Intl.NumberFormat("en-US", {
                   style: "currency",
-                  currency: "GBP",
+                  currency: "USD",
                 }).format(data.currentValue)}
               </Text>
             </HStack>
@@ -145,7 +145,7 @@ export default function DriverDetails() {
               <Text>Date Registered</Text>
               <Text>
                 {new Intl.DateTimeFormat("en-GB").format(
-                  new Date(data.registrationDate)
+                  new Date(data.dateRegistered)
                 )}
               </Text>
             </HStack>

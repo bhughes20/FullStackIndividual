@@ -49,7 +49,7 @@ export default function QuoteForm() {
     { value: "Ms", label: "Ms" },
   ];
 
-  const vehicleTypeOptions = [
+  const vehicleBodyTypeOptions = [
     { value: "Cabriolet", label: "Cabriolet" },
     { value: "Coupe", label: "Coupe" },
     { value: "Estate", label: "Estate" },
@@ -335,11 +335,11 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errors.postcodeOrZip}>
-                  <FormLabel htmlFor="postcodeOrZip">Postcode / Zip</FormLabel>
+                <FormControl isRequired isInvalid={errors.postcode}>
+                  <FormLabel htmlFor="postcode">Postcode / Zip</FormLabel>
                   <Controller
-                    id="postcodeOrZip"
-                    name="postcodeOrZip"
+                    id="postcode"
+                    name="postcode"
                     rules={{ required: "Postcode / Zip is a required field" }}
                     control={control}
                     defaultValue=""
@@ -353,17 +353,17 @@ export default function QuoteForm() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errors.postcodeOrZip && errors.postcodeOrZip.message}
+                    {errors.postcode && errors.postcode.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errors.vehicleType}>
-                  <FormLabel htmlFor="vehicleType">Vehicle Type</FormLabel>
+                <FormControl isRequired isInvalid={errors.vehicleBodyType}>
+                  <FormLabel htmlFor="vehicleBodyType">Vehicle Type</FormLabel>
                   <Controller
                     className="select"
-                    id="vehicleType"
-                    name="vehicleType"
+                    id="vehicleBodyType"
+                    name="vehicleBodyType"
                     control={control}
                     defaultValue=""
                     rules={{ required: "Vehicle Type is a required field" }}
@@ -371,11 +371,11 @@ export default function QuoteForm() {
                       field: { name, value, onChange, onBlur, ref },
                     }) => (
                       <Select
-                        isInvalid={errors.vehicleType}
+                        isInvalid={errors.vehicleBodyType}
                         name={name}
                         placeholder="Select..."
-                        options={vehicleTypeOptions}
-                        value={vehicleTypeOptions.find(
+                        options={vehicleBodyTypeOptions}
+                        value={vehicleBodyTypeOptions.find(
                           (c) => c.value === value
                         )}
                         onChange={(val) => onChange(val.value)}
@@ -385,7 +385,7 @@ export default function QuoteForm() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errors.vehicleType && errors.vehicleType.message}
+                    {errors.vehicleBodyType && errors.vehicleBodyType.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
@@ -464,95 +464,95 @@ export default function QuoteForm() {
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errors.commercialPurposes}>
-                  <FormLabel htmlFor="commercialPurposes">
+                <FormControl isRequired isInvalid={errors.commercialUse}>
+                  <FormLabel htmlFor="commercialUse">
                     Will the vehicle be used for commercial purposes?
                   </FormLabel>
                   <div>
                     <label
                       className="radio-label"
-                      htmlFor="commercialPurposes-yes"
+                      htmlFor="commercialUse-yes"
                     >
                       <input
-                        {...register("commercialPurposes", {
+                        {...register("commercialUse", {
                           required: "This is a required field",
                         })}
                         type="radio"
                         value="Yes"
-                        id="commercialPurposes-yes"
+                        id="commercialUse-yes"
                       />
                       <span className="checkmark"></span>
                       Yes
                     </label>
                     <label
                       className="radio-label"
-                      htmlFor="commercialPurposes-no"
+                      htmlFor="commercialUse-no"
                     >
                       <input
-                        {...register("commercialPurposes", {
+                        {...register("commercialUse", {
                           required: "This is a required field",
                         })}
                         type="radio"
                         value="No"
-                        id="commercialPurposes-no"
+                        id="commercialUse-no"
                       />
                       <span className="checkmark"></span>
                       No
                     </label>
                   </div>
                   <FormErrorMessage>
-                    {errors.commercialPurposes &&
-                      errors.commercialPurposes.message}
+                    {errors.commercialUse &&
+                      errors.commercialUse.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
-                <FormControl isRequired isInvalid={errors.outOfRegisteredState}>
-                  <FormLabel htmlFor="outOfRegisteredState">
+                <FormControl isRequired isInvalid={errors.outsideStateUse}>
+                  <FormLabel htmlFor="outsideStateUse">
                     Will the vehicle be used outside the registered state?
                   </FormLabel>
 
                   <label
                     className="radio-label"
-                    htmlFor="outOfRegisteredState-yes"
+                    htmlFor="outsideStateUse-yes"
                   >
                     <input
-                      {...register("outOfRegisteredState", {
+                      {...register("outsideStateUse", {
                         required: "This is a required field",
                       })}
                       type="radio"
                       value="Yes"
-                      id="outOfRegisteredState-yes"
+                      id="outsideStateUse-yes"
                     />
                     <span className="checkmark"></span>
                     Yes
                   </label>
                   <label
                     className="radio-label"
-                    htmlFor="outOfRegisteredState-no"
+                    htmlFor="outsideStateUse-no"
                   >
                     <input
-                      {...register("outOfRegisteredState", {
+                      {...register("outsideStateUse", {
                         required: "This is a required field",
                       })}
                       type="radio"
                       value="No"
-                      id="outOfRegisteredState-no"
+                      id="outsideStateUse-no"
                     />
                     <span className="checkmark"></span>
                     No
                   </label>
 
                   <FormErrorMessage>
-                    {errors.outOfRegisteredState &&
-                      errors.outOfRegisteredState.message}
+                    {errors.outsideStateUse &&
+                      errors.outsideStateUse.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
               <GridItem colSpan={colSpan2}>
                 <FormControl isRequired isInvalid={errors.currentValue}>
                   <FormLabel htmlFor="currentValue">
-                    What is the current value of the vehicle (£0-£50,000)?
+                    What is the current value of the vehicle ($0-$50,000)?
                   </FormLabel>
                   <Controller
                     id="currentValue"
@@ -563,11 +563,11 @@ export default function QuoteForm() {
                       required: "This is a required field",
                       max: {
                         value: 50000,
-                        message: "Value cannot be greater than £50,000",
+                        message: "Value cannot be greater than $50,000",
                       },
                       min: {
                         value: 0,
-                        message: "Value cannot be less than £0",
+                        message: "Value cannot be less than $0",
                       },
                     }}
                     render={({ field: { onChange, onBlur } }) => (
@@ -575,6 +575,7 @@ export default function QuoteForm() {
                         defaultValue={0}
                         min={0}
                         max={50000}
+                        precision={2}
                         clampValueOnBlur={false}
                         onChange={onChange}
                         onBlur={onBlur}
@@ -596,15 +597,15 @@ export default function QuoteForm() {
                 <FormControl
                   className="light-theme"
                   isRequired
-                  isInvalid={errors.registrationDate}
+                  isInvalid={errors.dateRegistered}
                 >
-                  <FormLabel htmlFor="registrationDate">
+                  <FormLabel htmlFor="dateRegistered">
                     Date vehicle was first registered?
                   </FormLabel>
                   <Controller
                     className="react-datapicker__input-text"
-                    id="registrationDate"
-                    name="registrationDate"
+                    id="dateRegistered"
+                    name="dateRegistered"
                     control={control}
                     rules={{ required: "This is a required field" }}
                     defaultValue={new Date()}
@@ -619,7 +620,7 @@ export default function QuoteForm() {
                     )}
                   />
                   <FormErrorMessage>
-                    {errors.registrationDate && errors.registrationDate.message}
+                    {errors.dateRegistered && errors.dateRegistered.message}
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
