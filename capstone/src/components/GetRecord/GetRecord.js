@@ -42,13 +42,15 @@ export default function GetRecord() {
         console.log(response)
         if (response.status >= 200 && response.status < 300){
           history.push(redirectEndpoint);
-        } else if (response.status === 404) {
-          toast.error(`Driver ID ${id} does not exist.`)
         }
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
-        toast.error("Oops, something went wrong!")
+        if(error.response.status === 404){
+          toast.error(`Sorry, Driver ID ${id} does not exist.`)
+        } else {
+          toast.error("Oops, something went wrong!")
+        }
       });
   };
 

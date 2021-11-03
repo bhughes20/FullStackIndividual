@@ -149,7 +149,27 @@ export default function DriverDetails() {
                 )}
               </Text>
             </HStack>
-          </VStack>
+          </VStack> 
+          <VStack
+            spacing={1}
+            p={3}
+            bgColor="grey.200"
+            alignItems="stretch"
+            w="full"
+          >
+            <Heading as="h2" size="lg" pb={3}>
+              Final Quote
+            </Heading>
+            <HStack justifyContent="space-between">
+              <Text>Quote Amount</Text>
+              <Text>
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(data.finalQuoteAmount)}
+              </Text>
+            </HStack>
+          </VStack>           
         </VStack>
       </Flex>
     </Container>

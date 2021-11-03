@@ -66,10 +66,11 @@ export default function UpdateRecord() {
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Oops, something went wrong!")
       });
   }
 
-  function getDriverData(url, populateUpdateData, newTelephoneNumber) {
+  function getDriverData(id, url, populateUpdateData, newTelephoneNumber) {
     axios
       .get(url)
       .then(function (response) {
@@ -77,9 +78,13 @@ export default function UpdateRecord() {
         console.log(updateData);
         updateDriverData(url, updateData);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(JSON.stringify(error));
-        toast.error("Oops, something went wrong!")
+        if(error.response.status === 404){
+          toast.error(`Sorry, Driver ID ${id} does not exist.`)
+        } else {
+          toast.error("Oops, something went wrong!")
+        }
       });
   }
 
@@ -89,7 +94,7 @@ export default function UpdateRecord() {
     const newTelephoneNumber = data.telephoneNumber;
     const url = `http://localhost:8080/drivers/${id}`;
 
-    getDriverData(url, populateUpdateData, newTelephoneNumber);
+    getDriverData(id, url, populateUpdateData, newTelephoneNumber);
   };
 
   const handleErrorUpdateDriverTel = (errors) => {

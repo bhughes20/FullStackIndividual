@@ -48,7 +48,11 @@ export default function DeleteRecord() {
       })
       .catch((error) => {
         console.log(JSON.stringify(error));
-        toast.error("Oops, something went wrong!")
+        if(error.response.status === 404){
+          toast.error(`Sorry, Driver ID ${id} does not exist.`)
+        } else {
+          toast.error("Oops, something went wrong!")
+        }
       });
   };
 
