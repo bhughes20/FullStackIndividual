@@ -1,6 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import { useForm, Controller } from "react-hook-form";
+import { prefixOptions, vehicleBodyTypeOptions, engineSizeOptions } from "./SelectOptions";
 import DatePicker from "react-datepicker";
 import {
   Container,
@@ -41,30 +42,7 @@ export default function QuoteForm() {
   const colSpan2 = useBreakpointValue({ base: 6, md: 3 });
   let history = useHistory();
 
-  const prefixOptions = [
-    { value: "Dr", label: "Dr" },
-    { value: "Miss", label: "Miss" },
-    { value: "Mr", label: "Mr" },
-    { value: "Mrs", label: "Mrs" },
-    { value: "Ms", label: "Ms" },
-  ];
 
-  const vehicleBodyTypeOptions = [
-    { value: "Cabriolet", label: "Cabriolet" },
-    { value: "Coupe", label: "Coupe" },
-    { value: "Estate", label: "Estate" },
-    { value: "Hatchback", label: "Hatchback" },
-    { value: "Other", label: "Other" },
-  ];
-
-  const engineSizeOptions = [
-    { value: "1000", label: "1000" },
-    { value: "1600", label: "1600" },
-    { value: "2000", label: "2000" },
-    { value: "2500", label: "2500" },
-    { value: "3000", label: "3000" },
-    { value: "Other", label: "Other" },
-  ];
 
   const handleRegistration = (data) => {
     console.log(data);
@@ -103,10 +81,10 @@ export default function QuoteForm() {
       <Flex
         bgColor="grey.400"
         h={{ base: "auto", md: "full" }}
-        py={[0, 10]}
+        py={[5, 10]}
         direction={{ base: "column-reverse", md: "row" }}
       >
-        <VStack w="full" h="full" p={10} spacing={10} alignItems="center">
+        <VStack w="full" h="full" px={5} spacing={10} alignItems="center">
           <VStack spacing={3} alignItems="center">
             <Heading size="2xl">Get Quote</Heading>
             <Text>Please enter your driver details below to get a quote.</Text>
@@ -114,7 +92,7 @@ export default function QuoteForm() {
 
           <form onSubmit={handleSubmit(handleRegistration, handleError)}>
             <SimpleGrid
-              padding={[0, 10]}
+              padding={[5, 10]}
               bgColor="grey.200"
               columns={6}
               columnGap={3}
