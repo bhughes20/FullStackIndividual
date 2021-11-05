@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {
   Heading,
+  HStack,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -17,7 +18,7 @@ import {
 
 export default function GetRecord() {
   let history = useHistory();
-  const colSpan = useBreakpointValue({ base: 2, md: 1 });
+  const colSpan = useBreakpointValue({ base: 3, md: 1 });
 
   const {
     handleSubmit: handleSubmitGetDetails,
@@ -66,14 +67,15 @@ export default function GetRecord() {
       )}
     >
       <SimpleGrid
-        padding={[0, 10]}
+        padding={[5, 10]}
         bgColor="grey.300"
         columns={3}
         columnGap={3}
         rowGap={6}
+        flexGrow={1}
         w="full"
       >
-        <GridItem colSpan={3}>
+        <GridItem colSpan={3}> 
           <Heading as="h2" size="lg">
             Get Driver Details
           </Heading>
@@ -108,11 +110,13 @@ export default function GetRecord() {
             </FormErrorMessage>
           </FormControl>
         </GridItem>
-        <GridItem colSpan={colSpan}>
+        <HStack alignItems="end">
+        <GridItem colSpan={colSpan} >
           <Button type="submit" size="md">
             Get Details
           </Button>
         </GridItem>
+        </HStack>
       </SimpleGrid>
     </form>
   );

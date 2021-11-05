@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {
   Heading,
+  HStack,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -109,7 +110,7 @@ export default function UpdateRecord() {
             )}
           >
             <SimpleGrid
-              padding={[0, 10]}
+              padding={[5, 10]}
               bgColor="grey.300"
               columns={3}
               columnGap={3}
@@ -199,11 +200,13 @@ export default function UpdateRecord() {
                   </FormErrorMessage>
                 </FormControl>
               </GridItem>
+              <HStack alignItems="end">
               <GridItem colSpan={colSpan}>
                 <Button type="submit" size="md">
                   Update
                 </Button>
               </GridItem>
+              </HStack>
             </SimpleGrid>
           </form>
   )

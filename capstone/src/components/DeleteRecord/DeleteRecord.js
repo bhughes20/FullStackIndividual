@@ -10,6 +10,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   Heading,
+  HStack,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -25,7 +26,7 @@ export default function DeleteRecord() {
   const [id, setId] = useState(null);
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
-  const colSpan1 = useBreakpointValue({ base: 2, md: 1 });
+  const colSpan = useBreakpointValue({ base: 3, md: 1 });
 
   const {
     handleSubmit: handleSubmitDeleteRecord,
@@ -108,7 +109,7 @@ export default function DeleteRecord() {
         )}
       >
         <SimpleGrid
-          padding={[0, 10]}
+          padding={[5, 10]}
           bgColor="grey.300"
           columns={3}
           columnGap={3}
@@ -121,7 +122,7 @@ export default function DeleteRecord() {
               Delete Driver Record
             </Heading>
           </GridItem>
-          <GridItem colSpan={colSpan1}>
+          <GridItem colSpan={colSpan}>
             <FormControl
               isRequired
               isInvalid={errorsDeleteRecord.deleteDriverId}
@@ -154,11 +155,13 @@ export default function DeleteRecord() {
               </FormErrorMessage>
             </FormControl>
           </GridItem>
-          <GridItem colSpan={colSpan1}>
+          <HStack alignItems="end">
+          <GridItem colSpan={colSpan}>
             <Button type="submit" size="md">
               Delete
             </Button>
           </GridItem>
+          </HStack>
         </SimpleGrid>
       </form>
     </>

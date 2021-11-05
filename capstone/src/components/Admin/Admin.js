@@ -4,7 +4,6 @@ import {
   Flex,
   VStack,
   Heading,
-  Divider,
 } from "@chakra-ui/react";
 import DeleteRecord from "../DeleteRecord/DeleteRecord";
 import UpdateRecord from "../UpdateRecord/UpdateRecord";
@@ -17,7 +16,7 @@ export default function Admin() {
       <Flex
         bgColor="grey.500"
         h={{ base: "auto", md: "full" }}
-        py={[0, 10]}
+        py={[5, 10]}
         direction={{ base: "column-reverse", md: "row" }}
       >
         <VStack w="full" h="full" px={10} spacing={10} alignItems="center">
@@ -25,9 +24,7 @@ export default function Admin() {
             <Heading size="2xl">Admin</Heading>
           </VStack>
           <GetRecord />
-          <Divider />
           <DeleteRecord />
-          <Divider />
           <UpdateRecord />
         </VStack>
       </Flex>
