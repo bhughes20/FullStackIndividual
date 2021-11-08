@@ -32,7 +32,6 @@ export default function QuoteForm() {
     register,
     handleSubmit,
     control,
-    // reset,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
