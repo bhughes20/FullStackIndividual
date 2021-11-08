@@ -51,9 +51,10 @@ export default function QuoteForm() {
       .post(url, data)
       .then((response) => {
         console.log(response)
+        let id = response.data.id;
         if (response.status >= 200 && response.status < 300){
           toast.success("Thanks, your quote has been submitted!", {
-            onClose: () => history.push('/admin'),
+            onClose: () => history.push(`/driver-details/${id}`),
           })
         }
       })
