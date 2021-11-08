@@ -41,8 +41,6 @@ export default function QuoteForm() {
   const colSpan2 = useBreakpointValue({ base: 6, md: 3 });
   let history = useHistory();
 
-
-
   const handleRegistration = (data) => {
     console.log(data);
     const url = "http://localhost:8080/drivers";

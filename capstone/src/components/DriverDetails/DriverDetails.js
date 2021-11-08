@@ -122,11 +122,11 @@ export default function DriverDetails() {
               <Text>Additional Drivers</Text>
               <Text>{data.additionalDrivers}</Text>
             </HStack>
-            <HStack justifyContent="space-between">
+            <HStack justifyContent="space-between" spacing={2}>
               <Text>Will the vehicle be used for commercial purposes?</Text>
               <Text>{data.commercialUse}</Text>
             </HStack>
-            <HStack justifyContent="space-between">
+            <HStack justifyContent="space-between" spacing={2}>
               <Text>
                 Will the vehicle be used outside the registered state?
               </Text>
